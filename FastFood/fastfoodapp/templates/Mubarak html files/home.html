@@ -1,0 +1,6 @@
+{% comment %} {% extends 'Mubarak html files/base.html' %} {% endcomment %}
+
+                    <form action="{% url 'index' %}" method="POST ">{% csrf_token %}
+                              <input type="button" style="display:none;" name='search' value={{F.id}} >
+                            <button type="submit" class="btn btn-primary">See more</button>
+                    </form>

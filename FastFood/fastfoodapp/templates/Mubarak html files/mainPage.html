@@ -1,0 +1,390 @@
+{% comment %} {% load static %} {% endcomment %}
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'fastfoodapp/css/mainpage.css' %}"> 
+    <link rel="stylesheet" href="{% static 'fastfoodapp/css/index.css' %}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+              <!--- {% comment %} Rating link {% endcomment %}-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                <!--{% comment %}  {% endcomment %}-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+    /*{% comment %} Rating style {% endcomment %}*/
+    .checked {
+      color: orange;
+    }
+  /*  {% comment %} Footer style {% endcomment %}*/
+    footer {
+    background: #3a3a3a;
+    color: #fff;
+    font-size: 14px;
+    }
+    .footer-bottom {
+    padding: 20px 0px;
+    }
+    footer .footer-bottom a {
+    color: #cddc39;
+    text-decoration: none;
+    }
+   /* {% comment %} Card style {% endcomment %}*/
+    #Restaurants-Section , #HomeMade-Section{
+      {% comment %} display: flex; {% endcomment %}
+    }
+    #sec-header{
+      width: 100%;
+      display: inline-block;
+      text-align: center;
+    }
+    .card{
+     /* {% comment %} */
+      background-color: grey; /*{% endcomment %}*/
+      margin: 50px;
+    }
+    @media only screen and (max-width: 600px) {
+    #food-left-side{
+      display: inline-block;
+    }
+    #Res-left-side{
+      display: inline-block;
+    }
+    #Restaurants-Section{
+      display: inline-block;
+    }
+    
+  }
+  .dropdown{
+  margin-left: 950px;
+  margin-top:10px ;
+  background-color: #E08A1A;
+  color: #fff;
+}
+.dropdown-menu {
+  background-color:#3E3E3B;}
+  .dropdown-item{
+  color: #E08A1A ;
+  font-weight: bold;
+  }
+  .card:hover{
+    box-shadow: 0 50px 50px 0 rgba(248, 101, 3, 0.959), 0 50px 50px 0 rgba(250, 124, 6, 0.918);
+  }
+  .container-fluid .row:hover{
+          transform: skew(20deg); 
+          transition: all 3s;
+          box-shadow: 0 50px 50px 0 rgba(248, 101, 3, 0.959), 0 50px 50px 0 rgba(250, 124, 6, 0.918);
+
+
+                    }
+
+    </style>
+    
+  </head>
+  <body>
+    
+    <nav>
+        <div class="menu-icon"><span class="fas fa-bars"></span></div>
+        <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;color: #E08A1A">Otlob</a>
+        <div class="nav-items">
+            <li style="margin-left: 80px;"><a href="{% url 'aboutus'%}">About Us</a></li>
+            <li style="margin-left: 80px;"><a href="{% url 'Rmeals'%}">Foods</a></li>
+            <li style="margin-left: 80px;"><a href="{% url 'RDFPage' %}">Reastaurants</a></li>
+            <li style="margin-left: 80px;"><a href="{% url 'loginType' %}">Sign In</a></li>
+            <li style="margin-left: 80px;"><a href="{% url 'TypePage' %}">Sign Up</a></li>
+        </div>
+        <!-- <div class="search-icon"><span class="fas fa-search"></span></div>
+        <div class="cancel-icon"><span class="fas fa-times"></span></div> -->
+    </nav>
+  
+<script>
+    const menuBtn = document.querySelector(".menu-icon span");
+    const searchBtn = document.querySelector(".search-icon");
+    const cancelBtn = document.querySelector(".cancel-icon");
+    const items = document.querySelector(".nav-items");
+    const form = document.querySelector("form");
+    menuBtn.onclick = ()=>{
+      items.classList.add("active");
+      menuBtn.classList.add("hide");
+      searchBtn.classList.add("hide");
+      cancelBtn.classList.add("show");
+    }
+    cancelBtn.onclick = ()=>{
+      items.classList.remove("active");
+      menuBtn.classList.remove("hide");
+      searchBtn.classList.remove("hide");
+      cancelBtn.classList.remove("show");
+      form.classList.remove("active");
+      cancelBtn.style.color = "#ff3d00";
+    }
+    searchBtn.onclick = ()=>{
+      form.classList.add("active");
+      searchBtn.classList.add("hide");
+      cancelBtn.classList.add("show");
+    }
+  </script>
+  <!-- ======= Header Slider Section ======= -->
+    <header id="header">
+        <div id="headerCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+
+            <!-- Slide Indicators -->
+            <ol class="carousel-indicators">
+              <li data-target="#headerCarousel" data-slide-to="0" class="active"></li>
+              <li data-target="#headerCarousel" data-slide-to="1"></li>
+              <li data-target="#headerCarousel" data-slide-to="2"></li>
+            </ol>
+
+            <div class="carousel-inner" role="listbox">
+              <!-- Slide 1 -->
+              <div class="carousel-item active">
+                <div class="carousel-background"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.KrGAKEXgYL0tirUR-W0qbgHaE8%26pid%3DApi&f=1" 
+                    alt="" style="width:100%;"></div>
+                <div class="carousel-container">
+                  <div class="carousel-content">
+                    <h2>Welcome to <span>Otlob</span></h2>
+                    <p>Do Not Worry About Food Anymore The FAVORITE and DELECHESE food is here</p>
+                    {% comment %} <a href="#" class="contactus-btn">Contact Us</a> {% endcomment %}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 2 -->
+              <div class="carousel-item">
+                <div class="carousel-background"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.KrGAKEXgYL0tirUR-W0qbgHaE8%26pid%3DApi&f=1" 
+                  alt="" style="width:100%"></div>
+                <div class="carousel-container">
+                  <div class="carousel-content">
+                    <h2>Tody's Offer</h2>
+                    {% comment %} <a href="#" class="contactus-btn">get The Offer</a> {% endcomment %}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slide 3 -->
+              <div class="carousel-item">
+                <div class="carousel-background"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.KrGAKEXgYL0tirUR-W0qbgHaE8%26pid%3DApi&f=1" 
+                  alt="" style="width:100%"></div>
+                <div class="carousel-container">
+                  <div class="carousel-content">
+                    <h2>Tody's Offer</h2>
+                    {% comment %} <a href="#" class="contactus-btn">get The Offer</a> {% endcomment %}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Carousel pre and next arrow -->
+            <a class="carousel-control-prev" href="#headerCarousel" role="button" data-slide="prev">
+              <i class="fas fa-arrow-circle-left"></i>
+            </a>
+
+            <a class="carousel-control-next" href="#headerCarousel" role="button" data-slide="next">
+              <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </header><!-- End header -->
+
+
+
+
+                                 <!-- Cards Section -->
+     <hr>
+     
+      <div id="sec-header">
+          <h4>Foods<h4>
+      </div>
+
+      {% comment %} <div class="container-fluid" id="Restaurants-Section" >
+        <div class="row" style=" margin-left: 3%;">
+          {% for F in Foods %}
+            <div class="card" style="width:250px;text-align: center;">
+                <div class="card-header">
+                    <img class="card-img-top" src="{{F.F_Images.url}}" style="height:200px; height:200px;" alt="card image">
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title" style="text-align:center;font-size:1.5em;">{{F.It_Name}}</h6>
+                    <h6 class="card-title" style="text-align:center;font-size:1.5em;">{{F.It_Kind}}</h6>
+                    <h6 class="card-title" style="text-align:center;font-size:1.5em;">
+                      Rate : {{F.F_Rate}} <span class="fa fa-star checked"></span>
+                    </h6>
+                </div>
+                <div style="text-align:center;"> 
+                      <a class="btn btn-primary" href="/OrderPage/{{F.id}}">see more </a>
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div> {% endcomment %}
+
+    <div  class="container" id="Food-cards" style="margin-top:10px; text-align: center;">
+        <div class="row" style="margin-left: 0.5%;">
+            {% for F in Foods %}
+                <div class="card" style="width:300px; margin-left: 2%; margin-top: 2%;">
+                    <img class="card-img-top" src="{{F.F_Images.url}}" height=200px width=200px alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">{{F.It_Name}}</h4>
+                        <p class="card-text">{{F.It_Kind}}</p>
+                        <p class="card-text">
+                          {{F.F_Rate}}<span class="fa fa-star checked"></span>
+                        </P>
+                        <a href="OrderPage/{{F.id}}"  class="btn btn-primary">See Description</a>
+                        {% comment %} <a href="/OrderPage/{{F.id}}" class="btn btn-primary">Order</a> {% endcomment %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div> 
+    </div>
+
+
+
+
+
+
+
+
+
+     <hr>
+     
+      <div id="sec-header">
+          <h4>Restaurants<h4>
+      </div>
+
+      <div class="container" id="Restaurants-Section" style="margin-top:10px; text-align: center;"> 
+        <div class="row" style=" margin-left: 0.5%;" >
+          {% for R in Restobject %}
+            <div class="card" style="width:300px; margin-left: 2%;">
+                    <img class="card-img-top" src="{{R.R_Image.url}}" height=200px height=200px alt="card image">
+                <div class="card-body">
+                    <h6 class="card-title" style="text-align:center; font-size:1.5em">{{R.R_Name}}</h6>
+                    <h6 class="card-title" style="text-align:center; font-size:1.5em">{{R.R_Type}}</h6>
+                    <h6 class="card-title" style="text-align:center; font-size:1.5em">
+                      Rate : {{R.R_Rate}} <span class="fa fa-star checked"></span>
+                    </h6>
+                </div >
+                <div class="card-footer" style="text-align:center; font-size:1.5em">
+                    <a class="btn btn-primary" href="/restaurant/{{R.id}}">Visit</a>
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+        
+      </div>
+
+
+
+
+
+
+
+
+
+
+                  <hr>
+      {% comment %} <div id="sec-header">
+          <h4>HomeMade<h4>
+      </div>
+      <div class="container-fluid" id="HomeMade-Section">
+            <div class="card" >
+                <div class="card-header">
+                    <img class="card-img-top" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.1e5oXnXYQ0juB42Ls3bLgQHaDt%26pid%3DApi&f=1" 
+                        alt="card image">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{R.R_Name}}</h3>
+                    <p>Desserts</p>
+                </div>
+                <div class="card-footer"> {% endcomment %}
+                    {% comment %} <a class="btn btn-primary" href="{% url 'Hdessert' %}" >Visite</a> {% endcomment %}
+                {% comment %} </div>
+            </div>
+            <div class="card" >
+                <div class="card-header">
+                    <img class="card-img-top" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.1e5oXnXYQ0juB42Ls3bLgQHaDt%26pid%3DApi&f=1" 
+                        alt="card image">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{R.R_Name}}</h3>
+                    <p>Meals</p>
+                </div>
+                <div class="card-footer"> {% endcomment %}
+                    {% comment %} <a class="btn btn-primary" href="{% url 'Hmeal' %}" >Visite</a> {% endcomment %}
+                {% comment %} </div>
+            </div>
+      </div> {% endcomment %}
+
+      
+      
+
+    
+
+                {% comment %} this block of for dynamic contentent{% endcomment %}
+
+    {% comment %} <div class="container" id="food-div">
+         <div id="food-left-side">
+         {% for R in Restobject %}
+            <div class="card" >
+                <div class="card-header">
+                    <img class="card-img-top" src="{{R.R_Image.url}}" alt="card image">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">{{R.R_Name}}</h3>
+                    <p>Description</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary" href="#" >order</a>
+                </div>
+            </div>
+         {% endfor %}
+         </div>
+     </div>
+
+
+                 <hr style="background-color: red;">
+                 <hr style="background-color: red;">
+                 <hr style="background-color: red;">
+     <!-- Restaurant Section -->
+        <div class="container" id="Rest-div">
+            <div id="Res-left-side">
+            {% for R in Restobject %}
+                <div class="card">
+                    <div class="card-header">
+                        <img class="card-img-top" src="{{R.R_Image.url}}" alt="card image">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{R.R_Name}}</h3>
+                        <p class="card-text">Rating</p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary" href="#" >Visit</a>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>  {% endcomment %}
+    
+
+
+
+
+                                    <!-- footer section -->
+    <footer>
+      <div class="footer-bottom">
+          <div class="container">
+              <div class="row">
+                  <div class="col-12">
+                      <p class="text-center mb-2">&copy; Copyright <strong>Otlob</strong>. All Rights Reserved</p>
+                      <p class="text-center mb-0">Created by <a href="https://www.markuptag.com/">Otlob</a></p>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </footer>
+
+
+  </body>
+</html>

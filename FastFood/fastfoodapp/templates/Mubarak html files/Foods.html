@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+{% load static %}
+{% comment %} {% csrf_token %} {% endcomment %}
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'fastfoodapp/css/mainpage.css' %}"> 
+    <link rel="stylesheet" href="{% static 'fastfoodapp/css/index.css' %}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+      .card:hover{
+    box-shadow: 0 50px 50px 0 rgba(248, 101, 3, 0.959), 0 50px 50px 0 rgba(250, 124, 6, 0.918);
+    transform: skew(20deg); 
+          transition: all 3s;
+  }
+ /* .container .row:hover{
+          transform: skew(20deg); 
+          transition: all 3s;
+          box-shadow: 0 50px 50px 0 rgba(248, 101, 3, 0.959), 0 50px 50px 0 rgba(250, 124, 6, 0.918);}*/
+        footer {
+            background: #3a3a3a;
+            color: #fff;
+            font-size: 14px;
+        }
+        .footer-bottom {
+            padding: 20px 0px;
+        }
+        footer .footer-bottom a {
+            color: #cddc39;
+            text-decoration: none;
+        }
+        .checked {
+            color: orange;
+        }
+  </style>
+</head>
+<body>
+
+    <nav>
+        <div class="menu-icon"><span class="fas fa-bars"></span></div>
+        <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;">Otlob</a>
+        <div class="nav-items">
+            <li style="margin-left: 80px;"><a href="{% url 'aboutus'%}">About Us</a></li>
+            <li style="margin-left: 80px;"><a href="{% url 'Rmeals'%}">Foods</a></li>
+            <li style="margin-left: 80px;"><a href="{% url 'RDFPage' %}">Restaurant</a></li>
+        </div style="margin-left: 20px;">
+        <div class="search-icon"><span class="fas fa-search"></span></div>
+        <div class="cancel-icon"><span class="fas fa-times"></span></div>
+        <form action="{% url 'search' %}" method="POST">{% csrf_token %}
+            <input type="search" class="search-data" placeholder="Search for Foods-Restaurants " name="searched" >
+            <button type="submit" class="fas fa-search"></button>
+        </form>
+    </nav>
+    <style>
+
+    </style>
+
+
+    <script>
+        const menuBtn = document.querySelector(".menu-icon span");
+        const searchBtn = document.querySelector(".search-icon");
+        const cancelBtn = document.querySelector(".cancel-icon");
+        const items = document.querySelector(".nav-items");
+        const form = document.querySelector("form");
+        menuBtn.onclick = ()=>{
+        items.classList.add("active");
+        menuBtn.classList.add("hide");
+        searchBtn.classList.add("hide");
+        cancelBtn.classList.add("show");
+        }
+        cancelBtn.onclick = ()=>{
+        items.classList.remove("active");
+        menuBtn.classList.remove("hide");
+        searchBtn.classList.remove("hide");
+        cancelBtn.classList.remove("show");
+        form.classList.remove("active");
+        cancelBtn.style.color = "#ff3d00";
+        }
+        searchBtn.onclick = ()=>{
+        form.classList.add("active");
+        searchBtn.classList.add("hide");
+        cancelBtn.classList.add("show");
+        }
+
+    </script>
+
+
+
+
+    <div  class="container" id="Food-cards" style="margin-top:10px;">
+        <div class="row" style="margin-left: 3%;">
+            {% for m in meals %}
+                <div class="card" style="width:300px; margin-left: 2%; margin-top: 2%;">
+                    <img class="card-img-top" src="{{m.F_Images.url}}" height=200px width=200px alt="Card image">
+                    <div class="card-body" style="text-align: center;">
+                        <h4 class="card-title">{{m.It_Name}}</h4>
+                        <p class="card-text">{{m.It_Size}}</p>
+                        <p class="card-text">
+                            {{m.F_Rate}} <span class="fa fa-star checked"></span>
+                        </p>
+                        <a href="OrderPage/{{m.id}}"  class="btn btn-primary">Order</a>
+                        {% comment %} <a href="#" class="btn btn-primary">Order</a> {% endcomment %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div> 
+    </div>
+    
+
+
+
+
+
+
+
+
+    <footer>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="text-center mb-2">&copy; Copyright <strong>Otlob</strong>. All Rights Reserved</p>
+                        <p class="text-center mb-0">Created by <a href="https://www.markuptag.com/">Otlob</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+</body>
+</html>

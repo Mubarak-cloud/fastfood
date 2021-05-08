@@ -1,0 +1,1 @@
+Customer / user will create account on website for login it until it does the order . After login website will displays a current food if he need to order food he must to enter his address and information finally payment method

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>show restaurants</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+                        {% comment %} Bootstrape links {% endcomment %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    </head>
+    <body>
+        {% comment %} <div>
+            {% for a in A %}
+                {{a.It_Name}}<br>
+                {{a.It_Kind}}<br>
+                {{a.It_Size}}<br>
+            {% endfor %}
+        </div> {% endcomment %}
+
+        <div class="conatainer" id="inf-div" style="text-align: center; border: 5px solid red;">
+            {{R_Image}}<br>
+            {{R_Name}}<br>
+            {{R_Type}}<br>
+            {{R_Email}}<br>
+            {{R_Phone}}<br>
+            {{R_Rate}}<br>
+            {{R_City}}<br>
+            {{R_Area}}<br>
+            {{RImage_Cover}}
+        </div>
+        <hr>
+    
+                    {% comment %} toggle section {% endcomment %}
+        <div class="conatainer">
+            <p>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Add Meal
+                </button>
+                <button class="btn btn-primary" type="button" data-toggle="collapse"  data-target="#multiCollapseExample2"  aria-expanded="false" aria-controls="multiCollapseExample2">
+                    show orders
+                </button>
+            </p>
+                        {% comment %} add meal div {% endcomment %}
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <form action="#" method="POST" style="text-align:center;"> {% csrf_token %}
+                        <label for="name">Meal Name \/</label><br>
+                        <input type="text" id="" name="name"><br>
+                        <label for="Kind">Meal Kind \/</label><br>
+                        <input type="text" id="" name="Kind"><br>
+                        <label for="Size">Meal Size \/</label><br>
+                        <input type="text" id="" name="Size"><br>
+                        <label for="Prise">Meal Prise \/</label><br>
+                        <input type="number" id="" name="Prise"><br>
+                        <label for="Description">Meal Description \/</label><br>
+                        <input type="text" id="" name="Description"><br>
+                        <label for="Rate">Meal Rate \/</label><br>
+                        <input type="number" id="" name="Rate"><br>
+                        <label for="Image">Meal Image ></label>
+                        <input type="file" id="" name="Image"><br>
+                        <button class="btn btn-primary" type="submit" value="">Submit</button>
+                    </form>
+                </div>
+            </div>
+                        {% comment %} show orders div {% endcomment %}
+            <div class="collapse multi-collapse"  id="multiCollapseExample2">
+                <div class="card card-body">
+                    <P> orders </p>
+                    {% for R in recive_orders %}
+                        {{R.D_Name}}<br>
+                    {% endfor %}
+                </div>
+            </div>    
+        </div>
+
+
+                    {% comment %} show meals section {% endcomment %}
+        <div class="conatainer" id="showMeals" style="text-align: center; background-color: grey;" >
+            {% for R in restaurant_meals%}
+                {{R}}<br>
+            {% endfor %}
+        </div>
+        <script src="" async defer></script>
+    </body>
+</html>

@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'fastfoodapp/css/mainpage.css' %}"> 
+    <link rel="stylesheet" href="{% static 'fastfoodapp/css/index.css' %}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+                {% comment %} Rating link {% endcomment %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+                {% comment %}  {% endcomment %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+    {% comment %} Rating style {% endcomment %}
+    .checked {
+      color: orange;
+    }
+    {% comment %} Footer style {% endcomment %}
+    footer {
+    background: #3a3a3a;
+    color: #fff;
+    font-size: 14px;
+    }
+    .footer-bottom {
+    padding: 20px 0px;
+    }
+    footer .footer-bottom a {
+    color: #cddc39;
+    text-decoration: none;
+    }
+    {% comment %} Card style {% endcomment %}
+    #Restaurants-Section , #HomeMade-Section{
+      display: flex;
+    }
+    #sec-header{
+      width: 100%;
+      display: inline-block;
+      text-align: center;
+    }
+    .card{
+      {% comment %} background-color: grey; {% endcomment %}
+      margin: 50px;
+    }
+    @media only screen and (max-width: 600px) {
+    #food-left-side{
+      display: inline-block;
+    }
+    #Res-left-side{
+      display: inline-block;
+    }
+    #Restaurants-Section{
+      display: inline-block;
+    }
+    
+  }
+
+    {% comment %} Form style {% endcomment %}
+    #fname{
+        pointer-events: none; 
+    }
+    </style>
+    
+  </head>
+  <body>
+    
+    <nav>
+        <div class="menu-icon"><span class="fas fa-bars"></span></div>
+        <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;">Otlob</a>
+        <div class="nav-items">
+            <li><a href="{% url 'aboutus'%}">About Us</a></li>
+            <li><a href="#">Foods</a></li>
+            <li><a href="{% url 'Restaurant' %}">Restaurant</a></li>
+            <li><a href="#">Feedback</a></li>
+            <li><a href="{% url 'loginType' %}">Sign In</a></li>
+            <li><a href="{% url 'TypePage' %}">Sign Up</a></li>
+            <!-- {% for i in Restobject %}
+              <p style="color:orange">{{i.R_Email}}</p>
+            {% endfor %} -->
+            <!-- {% for i in Restobject %}
+              <p style="color: orange;">Hello, {{i.R_Email}}</p>
+            {% endfor %} -->
+        </div>
+        <div class="search-icon"><span class="fas fa-search"></span></div>
+        <div class="cancel-icon"><span class="fas fa-times"></span></div>
+    </nav>
+  
+<script>
+    const menuBtn = document.querySelector(".menu-icon span");
+    const searchBtn = document.querySelector(".search-icon");
+    const cancelBtn = document.querySelector(".cancel-icon");
+    const items = document.querySelector(".nav-items");
+    const form = document.querySelector("form");
+    menuBtn.onclick = ()=>{
+      items.classList.add("active");
+      menuBtn.classList.add("hide");
+      searchBtn.classList.add("hide");
+      cancelBtn.classList.add("show");
+    }
+    cancelBtn.onclick = ()=>{
+      items.classList.remove("active");
+      menuBtn.classList.remove("hide");
+      searchBtn.classList.remove("hide");
+      cancelBtn.classList.remove("show");
+      form.classList.remove("active");
+      cancelBtn.style.color = "#ff3d00";
+    }
+    searchBtn.onclick = ()=>{
+      form.classList.add("active");
+      searchBtn.classList.add("hide");
+      cancelBtn.classList.add("show");
+    }
+  </script>
+
+
+
+
+  <div class="container" style=" height:40em; padding:80px;"> 
+      {% if rightEmail and rightPassword %}
+          <div class="container">
+                <div style="text-align:center; ">
+                      your odrer commite the restaurant will communicate with you 
+                      <br>
+                      <br>
+                      back to 
+                      <br>
+                      <a href="{% url 'MainPage' %}" class="btn btn-primary">Home Page</a>
+                </div>
+          </div>
+          
+      {% else %}
+          <div style="text-align:center;padding:100px;">
+              <p >{{WrongINput}}</p>
+              <button class="btn btn-warning"> <a href="{% url 'ordertype'%}">ANOTHER TRY</a> </button>
+            </div>
+      {% endif %}
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+                                   <!-- footer section -->
+    <footer>
+      <div class="footer-bottom">
+          <div class="container">
+              <div class="row">
+                  <div class="col-12">
+                      <p class="text-center mb-2">&copy; Copyright <strong>Otlob</strong>. All Rights Reserved</p>
+                      <p class="text-center mb-0">Created by <a href="https://www.markuptag.com/">Otlob</a></p>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </footer>
+
+
+  </body>
+</html>

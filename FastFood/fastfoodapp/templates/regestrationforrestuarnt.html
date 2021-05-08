@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Regestration</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
+    
+    <style>
+        *{
+            padding:0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-image: url(../static/fastfoodapp/images/pexels-photo-2318966.jpeg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            
+        }
+        input{
+            box-shadow: 5px 5px 5px #000;
+        }
+        section{
+            margin-top: 150px;
+        }
+        a{
+            color:black;
+            font-weight: bold;
+           
+            margin-top: 3px;
+        }
+       h2{
+           text-align: center;
+           color:#000;
+           font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+           background-color: red;
+           padding: 8px;
+           margin-bottom: 5px;
+       }
+    </style>
+</head>
+<body>
+    
+        <div class="container">
+                    
+                    <section class="formrestaurant">
+                        <h2>Regestration for Restaurant</h2>
+                        <form method="POST" action="{%url 'congratulations' %}">
+                                  {% csrf_token %}
+                                    {% if messages %}
+                                      <ul>
+                                        <div class="alert alert-danger"role="alert" style="color:#000;font-weight: bold;">
+                                          {% for message in messages %}
+                                            <li>{{message}}</li>
+                                          {% endfor %}
+                                        </div>
+                                      </ul>
+                                    {% endif %}
+                                  
+                                  <!-- {% if error %}
+                                    <div class="alert alert-warning"role="alert">
+                                      {{error}}
+                                    </div>
+                                  {% endif %} -->
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon1"><i class="fas fa-utensils"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Restaurant Name" aria-label="resname" aria-describedby="basic-addon1" name="restname" required>
+                              </div>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon2"><i class="fas fa-utensils-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Restaurant Type" aria-label="restype" aria-describedby="basic-addon2" name="restype" required>
+                              </div>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon3"><i class="far fa-envelope"></i></span>
+                                </div>
+                                <input type="email" class="form-control" placeholder="Email" aria-label="email" aria-describedby="basic-addon3" name="email" required>
+                              </div>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon4"><i class="fas fa-unlock"></i></span>
+                                </div>
+                                <input type="password" class="form-control" placeholder="Password" aria-label="password" aria-describedby="basic-addon4" name="pass" required >
+                              </div>
+                              <!-- <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon4"><i class="fas fa-unlock"></i></span>
+                                </div>
+                                <input type="password" class="form-control" placeholder="Repeat Password" aria-label="password" aria-describedby="basic-addon4" name="pass2">
+                              </div> -->
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon5"><i class="fas fa-mobile-alt"></i></span>
+                                </div>
+                                <input type="number" class="form-control" placeholder="Phone Number" aria-label="phone" aria-describedby="basic-addon5" name="phone" required id="phone">
+                              </div>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon6"><i class="fas fa-city"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="City" aria-label="city" aria-describedby="basic-addon6" name="city" required>
+                              </div>
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon7"><i class="far fa-building"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Area" aria-label="area" aria-describedby="basic-addon7" name="area" required>
+                              </div>
+                              <input type="submit" class="btn btn-primary">
+                          </form>
+                          </section>
+            
+                          <a href="{% url 'TypePage' %}" class="btn btn-warning">Back To Type Page</a>
+        </div>
+    
+    
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
