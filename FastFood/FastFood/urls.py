@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static 
-from fastfoodapp.views import typepage,restaurant_Reg,restaurant,addmeal,delete,afterReg,login,customer_reg,curentuser,User,Aboutus,loginRestuarnt,loginType,newUser,editmeal,yourorders,showorders,editinfo,forgetpass,changepass
+from fastfoodapp.views import typepage,restaurant_Reg,restaurant,addmeal,delete,Aboutus,loginType,editmeal,yourorders,showorders,editinfo,restaurant_login,customer_reg,customer_login,logout_user
 from fastfoodapp.views import mainpage,RestaurantsPage,Rmeal,Outer_SearchBox,Rdessert,OrderPage,index,RestaurantsPage,ordertype,checktype,testview
 from fastfoodapp.views import history_of_orders,restaurant_meals
 
@@ -62,17 +62,20 @@ urlpatterns = [
     path('yourorders',yourorders,name="Yourorders"),
     path('yourorders/<int:id>',showorders,name="Showorders"),
     path('yourorders/editCustInfo/<int:id>',editinfo,name="EditCustInfo"),
-    path('congratulations',afterReg,name="congratulations"),
-    path('login/',login,name="login"),
+    # path('congratulations',afterReg,name="congratulations"),
+    # path('login/',login,name="login"),
+    path('loginRes/',restaurant_login,name="loginRes"),
+    path('customerlogin/',customer_login,name="customerlogin"),
+    path('logout/',logout_user,name="logout"),
     path('about/',Aboutus,name="aboutus"),
-    path('customer/',customer_reg ,name="customer"),
-    path('User/',User ,name="user"),
-    path('User1/',curentuser,name="user1"),
-    path('loginforrestuarnt/',loginRestuarnt ,name="login2"),
+    path('customerreg/',customer_reg ,name="customerreg"),
+    # path('User/',User ,name="user"),
+    # path('User1/',curentuser,name="user1"),
+    # path('loginforrestuarnt/',loginRestuarnt ,name="login2"),
     path('loginType/',loginType ,name="loginType"),
-    path('newuser/',newUser ,name="newuser"),
-     path('pass/',forgetpass,name="password"),
-      path('change/',changepass,name="changepassword"),
+    # path('newuser/',newUser ,name="newuser"),
+    # path('pass/',forgetpass,name="password"),
+    # path('change/',changepass,name="changepassword"),
 
 
 

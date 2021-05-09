@@ -1,12 +1,15 @@
 from django.shortcuts import render,HttpResponse,redirect
-from . import models
+# from . import models
 import re
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
-from .models import Restaurant,FoodItem,Customer,Order
-# from .models import vindour,food
-
+# from .models import Restaurant,FoodItem,Customer,Order
+from .models import *
 
 
 
@@ -23,9 +26,7 @@ def mainpage(request):
     Foods = FoodItem.objects.all()
     
     return render(request,'Mubarak html files/mainPage.html',{
-        'Restobject': Restobject[0:3],
-         'Foods': Foods[0:3],
-         }
+        'Restobject': Restobject[0:3],'Foods':Foods}
          )
 
     # Restaurant page functions 
@@ -89,9 +90,9 @@ def restaurant_meals(request, id):
         #  to show current Restaurant data
         'R_id'      : Restaurant_id.id,
         'R_Image'   : Restaurant_id.R_Image,
-        'R_Name'    : Restaurant_id.R_Name,
+        'user.username'    : Restaurant_id.user.username,
         'R_Type'    : Restaurant_id.R_Type,
-        'R_Email'   : Restaurant_id.R_Email,
+        'user.email'   : Restaurant_id.user.email,
         'R_Phone'   : Restaurant_id.R_Phone,
         'R_Rate'    : Restaurant_id.R_Rate,
         'R_City'    : Restaurant_id.R_City,
@@ -166,9 +167,9 @@ def RestaurantsPage(request, id ):
         #  to show current Restaurant data
         'R_id'      : Restaurant_id.id,
         'R_Image'   : Restaurant_id.R_Image,
-        'R_Name'    : Restaurant_id.R_Name,
+        'user.username'    : Restaurant_id.user.username,
         'R_Type'    : Restaurant_id.R_Type,
-        'R_Email'   : Restaurant_id.R_Email,
+        'user.email'   : Restaurant_id.user.email,
         'R_Phone'   : Restaurant_id.R_Phone,
         'R_Rate'    : Restaurant_id.R_Rate,
         'R_City'    : Restaurant_id.R_City,
@@ -266,9 +267,9 @@ def Rmeal(request):
 def Outer_SearchBox(request):
     if request.method == "POST":
         outer_search = request.POST.get('searched')
-
-        Rlist = Restaurant.objects.all().filter(R_Name__iexact=outer_search)
-        Rlist_two = Restaurant.objects.all().filter(R_Name__istartswith=outer_search[0])
+        #line270 change from R_Name to R_Phone
+        Rlist = Restaurant.objects.all().filter(R_Phone__iexact=outer_search)
+        Rlist_two = Restaurant.objects.all().filter(R_Phone__istartswith=outer_search[0])
 
         Flist_two= FoodItem.objects.all().filter(It_Name__iexact=outer_search)
         Flist_Three = FoodItem.objects.all().filter(It_Name__istartswith=outer_search[0])
@@ -411,7 +412,40 @@ def typepage(request):
     return render(request,'typePage.html',{})
 
 def restaurant_Reg(request):
+    if request.method == "POST":
+        cd = request.POST
+        if get_user_model().objects.filter(email=cd['email']) or get_user_model().objects.filter(username=cd['full_name']):
+            messages.warning(request, 'email or name used before')
+            return redirect('register')
+        obj = Restaurant()
+        obj.user = get_user_model().objects.create_user(username=cd['full_name'])
+        obj.user.email = cd['email']
+        obj.user.set_password(cd['password'])
+        obj.user.save()
+        obj.R_Phone = cd['phone']
+        obj.R_Type = cd['restype']
+        obj.R_Area = cd.get("area")
+        obj.R_City = cd.get("city")
+        obj.save()
+        messages.success(request, 'registeration is successfully')
+        return redirect('loginRes')
     return render(request,'regestrationforrestuarnt.html',{})
+
+def restaurant_login(request):
+    
+    cd = request.POST
+
+    if request.method == "POST":
+        user = authenticate(request, username=get_user_model().objects.filter(email=cd['email'])[0].username, password=cd['password'])
+        if user:
+            login(request, user)
+            return redirect('/')
+        else:
+            messages.warning(request, 'invalid email or password')
+            return redirect('loginRes')
+    
+    return render(request,'loginForRestuarant.html',{})
+
 
 def details(request):
     return render(request,'details.html',{})
@@ -442,7 +476,7 @@ def editinfo(request,id):
 
     return render(request,'editCustInfo.html',{'customerObj' : customerObj})
 
-
+@login_required(login_url="loginRes")
 def restaurant(request):
 #DELETD FROM DATABASE
     
@@ -497,55 +531,55 @@ def editmeal(request,id):
         )
     return render(request,'editmeal.html',{'obj' : obj})
 
-
+@login_required(login_url='loginRes')
 def delete(request,id):
     obj = FoodItem.objects.get(id=id)
     obj.delete()
     return redirect('/restaurant')
 
 
-def afterReg(request):
-    res_name=request.POST['restname']
-    res_type=request.POST['restype']
-    res_email=request.POST['email']
-    res_password=request.POST['pass']
-    res_phone=request.POST['phone']
-    res_city=request.POST['city']
-    res_area=request.POST['area']
-       # error_message=None
-    # if not res_name:
-    #     error_message="Restuarant Name Is Required"
-    # elif len(res_name)<2:
-    #         error_message="Restuarant Name must be 2 char or more "
+# def afterReg(request):
+#     res_name=request.POST['restname']
+#     res_type=request.POST['restype']
+#     res_email=request.POST['email']
+#     res_password=request.POST['pass']
+#     res_phone=request.POST['phone']
+#     res_city=request.POST['city']
+#     res_area=request.POST['area']
+#        # error_message=None
+#     # if not res_name:
+#     #     error_message="Restuarant Name Is Required"
+#     # elif len(res_name)<2:
+#     #         error_message="Restuarant Name must be 2 char or more "
 
-    # elif res_type:
-    #     error_message="Restuarant Type Is Required"
-    # elif not res_email:
-    #     error_message=" Email Is Required"
-    # elif not res_password:
-    #     error_message="Password Is Required"
-    # elif not res_phone:
-    #     error_message="Phone Is Required"
-    # elif not res_city:
-    #     error_message="City Is Required"
-    # elif not res_area:
-    #     error_message="Area Is Required"
-    regphone=re.match(r"01(0|1|2|5)[0-9]{8}",res_phone)
-    regpass=re.match(r"^[a-z0-9]{6,20}$",res_password)
-    if regphone and regpass:
-        reg=models.Restaurant(R_Name=res_name,R_Type=res_type,R_Email=res_email,R_Password=res_password,
-                R_Phone=res_phone,R_City=res_city,R_Area=res_area)
-        reg.save()
-        messages.info(request,"Successfully Registered")
-        return render(request,"regestrationforrestuarnt.html")
-        # return HttpResponse("Successfully")
-    else:
-        if not regphone:
-            messages.info(request,"Phone Invalid Plz Enter an Egyptian Phone Number ex:010..|011..|012..|015..")
-        elif not regpass:
-            messages.info(request,"Password Must be a letters or numbers and at least 6 characters")
+#     # elif res_type:
+#     #     error_message="Restuarant Type Is Required"
+#     # elif not res_email:
+#     #     error_message=" Email Is Required"
+#     # elif not res_password:
+#     #     error_message="Password Is Required"
+#     # elif not res_phone:
+#     #     error_message="Phone Is Required"
+#     # elif not res_city:
+#     #     error_message="City Is Required"
+#     # elif not res_area:
+#     #     error_message="Area Is Required"
+#     regphone=re.match(r"01(0|1|2|5)[0-9]{8}",res_phone)
+#     regpass=re.match(r"^[a-z0-9]{6,20}$",res_password)
+#     if regphone and regpass:
+#         reg=models.Restaurant(user.username=res_name,R_Type=res_type,user.email=res_email,R_Password=res_password,
+#                 R_Phone=res_phone,R_City=res_city,R_Area=res_area)
+#         reg.save()
+#         messages.info(request,"Successfully Registered")
+#         return render(request,"regestrationforrestuarnt.html")
+#         # return HttpResponse("Successfully")
+#     else:
+#         if not regphone:
+#             messages.info(request,"Phone Invalid Plz Enter an Egyptian Phone Number ex:010..|011..|012..|015..")
+#         elif not regpass:
+#             messages.info(request,"Password Must be a letters or numbers and at least 6 characters")
 
-        return render(request,"regestrationforrestuarnt.html")
+#         return render(request,"regestrationforrestuarnt.html")
         
 
 
@@ -553,91 +587,127 @@ def afterReg(request):
 def Aboutus(request):
     return render (request,'aboutpage.html',{})     
 
-def login(request):
-    return render(request,'login.html')
+# def login(request):
+#     return render(request,'login.html')
 
 def customer_reg (request):
-    return render(request,'registercustomer.html')
+    if request.method == "POST":
+        cd2 = request.POST
+        if get_user_model().objects.filter(email=cd2['email']) or get_user_model().objects.filter(username=cd2['full_name']):
+            messages.warning(request, 'email or name used before')
+            return redirect('customerreg')
+        obj2 = Customer()
+        obj2.user = get_user_model().objects.create_user(username=cd2['full_name'])
+        obj2.user.email = cd2['email']
+        obj2.user.set_password(cd2['password'])
+        obj2.user.save()
+        obj2.phone = cd2['phone']
+        obj2.Area = cd2.get("area")
+        obj2.City = cd2.get("city")
+        obj2.save()
+        messages.success(request, 'Registeration is successfully')
+        return redirect('customerlogin')
+
+    return render(request,'regcustomer.html',{})
 
 
-def User(request):
-         C_Fname=request.POST['fname']
-         C_Lname=request.POST['lname']
-         C_Email=request.POST['email']
-         C_Password =request.POST['password']
-         C_Password2=request.POST['Rpassword']
-         C_Phone=request.POST['phone']
-         C_City=request.POST['city']
-         C_Area =request.POST['area']
-         regphone=re.match(r"01(0|1|2|5)[0-9]{8}", C_Phone)
-        #  regname=re.match("^[a-zA-Z]*$",C_Fname)
-        #  if not regname:
-        #      messages.error(request,"name must be vaild")
-        #      return render (request,'registercustomer.html')
-         if C_Password == C_Password2 and regphone:
-            NewUser=models.Customer(C_Fname=C_Fname,C_Lname=C_Lname,C_Email=C_Email,
-              C_Password=C_Password,C_Password2=C_Password2,C_Phone=C_Phone,C_City=C_City,C_Area=C_Area)
-            NewUser.save()
-            messages.info(request,"Successfully Registered")
-            return render(request,'registercustomer.html')
-         else:
-            if C_Password != C_Password2:
-                messages.error(request,"Password must be equal Retype Password")
-                return render(request,'registercustomer.html')
-            elif not regphone:
-                messages.error(request,"phone must be egypt")
-                return render (request,'registercustomer.html')
+def customer_login(request):
+    cd = request.POST
+
+    if request.method == "POST":
+        user = authenticate(request, username=get_user_model().objects.filter(email=cd['email'])[0].username, password=cd['password'])
+        if user:
+            login(request, user)
+            return redirect('/')
+        else:
+            messages.warning(request, 'Invalid Email or Password')
+            return redirect('customerlogin')
+
+    return render(request, 'login.html', {})
+
+# def User(request):
+#          C_Fname=request.POST['fname']
+#          C_Lname=request.POST['lname']
+#          C_Email=request.POST['email']
+#          C_Password =request.POST['password']
+#          C_Password2=request.POST['Rpassword']
+#          C_Phone=request.POST['phone']
+#          C_City=request.POST['city']
+#          C_Area =request.POST['area']
+#          regphone=re.match(r"01(0|1|2|5)[0-9]{8}", C_Phone)
+#         #  regname=re.match("^[a-zA-Z]*$",C_Fname)
+#         #  if not regname:
+#         #      messages.error(request,"name must be vaild")
+#         #      return render (request,'registercustomer.html')
+#          if C_Password == C_Password2 and regphone:
+#             NewUser=models.Customer(C_Fname=C_Fname,C_Lname=C_Lname,C_Email=C_Email,
+#               C_Password=C_Password,C_Password2=C_Password2,C_Phone=C_Phone,C_City=C_City,C_Area=C_Area)
+#             NewUser.save()
+#             messages.info(request,"Successfully Registered")
+#             return render(request,'registercustomer.html')
+#          else:
+#             if C_Password != C_Password2:
+#                 messages.error(request,"Password must be equal Retype Password")
+#                 return render(request,'registercustomer.html')
+#             elif not regphone:
+#                 messages.error(request,"phone must be egypt")
+#                 return render (request,'registercustomer.html')
 
 
 
-            #  messages.error(request,"passwod must be equal Retypepassword")
-            #  return render (request,'registercustomer.html')
-        #  elif not regphone:
-        #       messages.error(request,"phone must be egypt")
-        #       return render (request,'registercustomer.html')
+#             #  messages.error(request,"passwod must be equal Retypepassword")
+#             #  return render (request,'registercustomer.html')
+#         #  elif not regphone:
+#         #       messages.error(request,"phone must be egypt")
+#         #       return render (request,'registercustomer.html')
         
          
             
 
 
 #function for connect login page with database
-def curentuser(request):
-    if request.method=="POST":
-        try:
-            Userdetails=models.Customer.objects.get(C_Email=request.POST['email'],C_Password=request.POST['password'])
-            request.session['email']=Userdetails.C_Email
-            return render(request,'Mubarak html files/mainpage.html')
-        except models.Customer.DoesNotExist as e:
-            messages.success(request,'username/password invaild.........') 
-    return render(request,'login.html')
+# def curentuser(request):
+#     if request.method=="POST":
+#         try:
+#             Userdetails=models.Customer.objects.get(C_Email=request.POST['email'],C_Password=request.POST['password'])
+#             request.session['email']=Userdetails.C_Email
+#             return render(request,'Mubarak html files/mainpage.html')
+#         except models.Customer.DoesNotExist as e:
+#             messages.success(request,'username/password invaild.........') 
+#     return render(request,'login.html')
 
-def newUser(request):
-    if request.method=="POST":    
-        try:
-            userrest=models.Restaurant.objects.get(R_Email=request.POST['email'],R_Password=request.POST['pass']) 
-            request.session['email']=userrest.R_Email
-            return render(request,'Mubarak html files/mainpage.html',{'userrest':userrest})
-        except models.Restaurant.DoesNotExist as e:
-            messages.success(request,'Email or Password Invalid') 
-    return render(request,'loginForRestuarant.html')  
+# def newUser(request):
+#     if request.method=="POST":    
+#         try:
+#             userrest=models.Restaurant.objects.get(user.email=request.POST['email'],R_Password=request.POST['pass']) 
+#             request.session['email']=userrest.user.email
+#             return render(request,'Mubarak html files/mainpage.html',{'userrest':userrest})
+#         except models.Restaurant.DoesNotExist as e:
+#             messages.success(request,'Email or Password Invalid') 
+#     return render(request,'loginForRestuarant.html')  
 
-def loginRestuarnt(request):
-    return render(request,'loginForRestuarant.html',{})
+# def loginRestuarnt(request):
+#     return render(request,'loginForRestuarant.html',{})
 
 def loginType(request):
     return render(request,'loginType.html',{})
 
 
-#function for forget password page#
-def forgetpass(request):
-    return render(request,'forgetpassword.html') 
+def logout_user(request):
+    logout(request)
+    return redirect('/')
 
-def changepass(request):
-    if request.method=="POST":
-        try:
-            Userdetail=models.Customer.objects.get(C_Email=request.POST['email'])
-            request.session['email']=Userdetail.C_Email
-            return render(request,'Mubarak html files/mainpage.html')
-        except models.Customer.DoesNotExist as e:
-            messages.success(request,'username invaild.........') 
-    return render(request,'forgetpassword.html')             
+
+#function for forget password page#
+# def forgetpass(request):
+#     return render(request,'forgetpassword.html') 
+
+# # def changepass(request):
+# #     if request.method=="POST":
+# #         try:
+# #             Userdetail=models.Customer.objects.get(C_Email=request.POST['email'])
+# #             request.session['email']=Userdetail.C_Email
+# #             return render(request,'Mubarak html files/mainpage.html')
+# #         except models.Customer.DoesNotExist as e:
+# #             messages.success(request,'username invaild.........') 
+# #     return render(request,'forgetpassword.html')             

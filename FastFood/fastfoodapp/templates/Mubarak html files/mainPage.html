@@ -89,6 +89,27 @@
   <body>
     
     <nav>
+      <div class="menu-icon"><span class="fas fa-bars"></span></div>
+      <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;color:orange"><i class="fas fa-pizza-slice" style="color:white"></i> Fast Food</a>
+
+      <div class="nav-items">
+          <ul style="display:flex">
+              <li><a href="{% url 'aboutus'%}">About Us</a></li>
+              <li><a href="{% url 'Rmeals'%}">Foods</a></li>
+              <li><a href="{% url 'RDFPage' %}">Restaurants</a></li>
+          </ul>
+      </div>
+       {% if user.is_authenticated%}
+              <li><p style="color:orange"><span><i class="far fa-user"></i></span> Welcome , {{user.username}}</p></li>
+              <li><a href="{% url 'logout' %}" style="color:white;text-decoration:none"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      {% else %}
+      <div style="display:flex;">
+                <li><a href="{% url 'loginType' %}" style="color:white;text-decoration:none"><i class="fas fa-sign-in-alt"></i> Log In</a></li>
+                <li><a href="{% url 'TypePage' %}" style="color:white;text-decoration:none"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+      </div>
+      {% endif %}
+  </nav>
+    <!-- <nav>
         <div class="menu-icon"><span class="fas fa-bars"></span></div>
         <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;color: #E08A1A">Otlob</a>
         <div class="nav-items">
@@ -100,7 +121,7 @@
         </div>
         <!-- <div class="search-icon"><span class="fas fa-search"></span></div>
         <div class="cancel-icon"><span class="fas fa-times"></span></div> -->
-    </nav>
+    </nav> 
   
 <script>
     const menuBtn = document.querySelector(".menu-icon span");
@@ -260,7 +281,7 @@
             <div class="card" style="width:300px; margin-left: 2%;">
                     <img class="card-img-top" src="{{R.R_Image.url}}" height=200px height=200px alt="card image">
                 <div class="card-body">
-                    <h6 class="card-title" style="text-align:center; font-size:1.5em">{{R.R_Name}}</h6>
+                    <h6 class="card-title" style="text-align:center; font-size:1.5em">{{R.user.username}}</h6>
                     <h6 class="card-title" style="text-align:center; font-size:1.5em">{{R.R_Type}}</h6>
                     <h6 class="card-title" style="text-align:center; font-size:1.5em">
                       Rate : {{R.R_Rate}} <span class="fa fa-star checked"></span>
