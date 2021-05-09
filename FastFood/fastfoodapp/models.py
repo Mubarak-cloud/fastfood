@@ -17,9 +17,9 @@ class Restaurant(models.Model):
     R_Password=models.CharField(max_length=200)
     R_City=models.CharField(max_length=200)
     R_Area=models.CharField(max_length=200,default="Qena")
-    R_Image = models.ImageField(upload_to='media/images', default="null")
+    R_Image = models.ImageField(upload_to='media/media/images', default="null")
     R_Rate= models.PositiveIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
-    RImage_Cover = models.ImageField(upload_to='media/images', default="null")
+    RImage_Cover = models.ImageField(upload_to='media/media/images', default="null")
 
 
 
@@ -39,7 +39,7 @@ class FoodItem(models.Model):
     It_Size = models.CharField(max_length=200)
     It_Prise = models.PositiveIntegerField(default= 0.0)
     It_Descrip = models.CharField(max_length=200, default='null')
-    F_Images= models.ImageField(upload_to='media/images', default='media/images/null.png')
+    F_Images= models.ImageField(upload_to='media/media', default='null')
     F_Rate = models.PositiveIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
     foods = models.ManyToManyField(Restaurant)
 
@@ -106,6 +106,10 @@ class Order(models.Model):
     restaurants = models.ManyToManyField(Restaurant)
     customers   = models.ManyToManyField(Customer)
     foods       = models.ManyToManyField(FoodItem)
+
+    def __str__(self):
+        return self.D_Name
+    
     
 
     

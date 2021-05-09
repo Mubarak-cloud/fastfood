@@ -117,7 +117,7 @@
       </thead>
       <tbody>
         <tr>
-          <form method="POST" action="{% url 'ordertype' %}">
+          <form method="POST" action="#">
             {% csrf_token %}
             <th scope="row">Order Name</th>
             <td><input type="text" value={{orderName}}></td>

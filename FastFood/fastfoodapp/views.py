@@ -45,17 +45,17 @@ def restaurant_meals(request, id):
 
             # to show customers orders 
         customers_orders = Order.objects.all().filter(restaurants__id =id)
-        print('customer orders variable -----')
-        print(customers_orders)
+        # print('customer orders variable -----')
+        # print(customers_orders)
         if customers_orders:
             recive_orders = customers_orders
-            print('recive orders variabel ----')
-            print(recive_orders)
+            # print('recive orders variabel ----')
+            # print(recive_orders)
         else:
             recive_orders = 'thers is no orders for today'
             # print(recive_orders)
 
-    else:
+
             #  to add new meal 
         if request.method == "POST":
             meal_name = request.POST.get('name')
@@ -297,38 +297,50 @@ def index(request, id):
 
 
 def OrderPage(request, id):
-    order = FoodItem.objects.get(id=id)
-    if request.method == "POST":
-        # print(order)
-        orders = Order(
-            D_Name = order.It_Name,
-            D_totalCost = order.It_Prise,
-        )
-        orders.save()
-        # print(orders)
-        A = Customer.objects.all()
-        # print(A[0].id)
-        orders.customers.add(A[0].id)
+        # global variables for if condetions
+    orders = None
 
-        return render(request, 'Mubarak html files/OrdersPage.html', {
-            'order': order,
-            'orderName': order.It_Name,
-            'orderKink': order.It_Kind,
-            'orderSize': order.It_Prise,
-            'orderDescription': order.It_Descrip,
-            'orderImages': order.F_Images,
-            'orderRate': order.F_Rate
-        })
-    else:
-        return render(request, 'Mubarak html files/OrdersPage.html', {
-            'order': order,
-            'orderName': order.It_Name,
-            'orderKink': order.It_Kind,
-            'orderSize': order.It_Prise,
-            'orderDescription': order.It_Descrip,
-            'orderImages': order.F_Images,
-            'orderRate': order.F_Rate
-        })
+    order = FoodItem.objects.get(id=id)
+    B = Restaurant.objects.all()
+    print(B[0].id)
+    # print(order.foods)
+    if order:
+        # print(order)
+        if request.method == "POST":
+            # print(order)
+            orders = Order(
+                D_Name = order.It_Name,
+                D_totalCost = order.It_Prise,
+            )
+            orders.save()
+            # print(orders)
+            A = Customer.objects.all()
+            orders.customers.add(A[0].id)
+            orders.restaurants.add(B[0].id)
+
+            # orders.restaurants.set(order.foods)
+            # orders.restaurants.add()
+            # print(orders)
+
+    return render(request, 'Mubarak html files/OrdersPage.html', {
+        'order': order,
+        'orderName': order.It_Name,
+        'orderKink': order.It_Kind,
+        'orderSize': order.It_Prise,
+        'orderDescription': order.It_Descrip,
+        'orderImages': order.F_Images,
+        'orderRate': order.F_Rate
+    })
+    # else:
+    #     return render(request, 'Mubarak html files/OrdersPage.html', {
+    #         'order': order,
+    #         'orderName': order.It_Name,
+    #         'orderKink': order.It_Kind,
+    #         'orderSize': order.It_Prise,
+    #         'orderDescription': order.It_Descrip,
+    #         'orderImages': order.F_Images,
+    #         'orderRate': order.F_Rate
+    #     })
 
 
 
