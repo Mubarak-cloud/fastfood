@@ -49,7 +49,7 @@
                     
                     <section class="formrestaurant">
                         <h2>Regestration for Restaurant</h2>
-                        <form method="POST" action="{%url 'congratulations' %}">
+                        <form method="POST" action="">
                                   {% csrf_token %}
                                     {% if messages %}
                                       <ul>
@@ -70,7 +70,7 @@
                                 <div class="input-group-prepend">
                                   <span class="input-group-text" id="basic-addon1"><i class="fas fa-utensils"></i></span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="Restaurant Name" aria-label="resname" aria-describedby="basic-addon1" name="restname" required>
+                                <input type="text" class="form-control" placeholder="Restaurant Name" aria-label="resname" aria-describedby="basic-addon1" name="full_name" required>
                               </div>
                               <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -84,18 +84,18 @@
                                 </div>
                                 <input type="email" class="form-control" placeholder="Email" aria-label="email" aria-describedby="basic-addon3" name="email" required>
                               </div>
-                              <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text" id="basic-addon4"><i class="fas fa-unlock"></i></span>
-                                </div>
-                                <input type="password" class="form-control" placeholder="Password" aria-label="password" aria-describedby="basic-addon4" name="pass" required >
-                              </div>
                               <!-- <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text" id="basic-addon4"><i class="fas fa-unlock"></i></span>
                                 </div>
-                                <input type="password" class="form-control" placeholder="Repeat Password" aria-label="password" aria-describedby="basic-addon4" name="pass2">
+                                <input type="password" class="form-control" placeholder="Password" aria-label="password" aria-describedby="basic-addon4" name="pass" required >
                               </div> -->
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon4"><i class="fas fa-unlock"></i></span>
+                                </div>
+                                <input type="password" class="form-control" placeholder="Repeat Password" aria-label="password" aria-describedby="basic-addon4" name="password">
+                              </div>
                               <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text" id="basic-addon5"><i class="fas fa-mobile-alt"></i></span>

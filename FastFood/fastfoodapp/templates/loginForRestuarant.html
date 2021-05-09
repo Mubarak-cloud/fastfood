@@ -24,7 +24,7 @@
                       </div>
                       <div class="card-body">
                           <!--start form -->
-                          <form method="POST" action="{% url 'newuser' %}">
+                          <form method="POST" action="">
                               {% csrf_token %}
                                <!-- User name-->
                               <div class="input-group form-group">
@@ -39,7 +39,7 @@
                                   <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-key"></i></span>
                                   </div>
-                                  <input type="password" class="form-control" placeholder="Password" name="pass" required>
+                                  <input type="password" class="form-control" placeholder="Password" name="password" required>
                               </div>
                               <!--submit-->
                               <div class="form-group">
@@ -51,7 +51,7 @@
                       </div>
                       {% if messages %}
                               {% for msg in messages%}
-                              <b style="color:rgb(248, 6, 6)">{{msg}}</b>
+                              <b style="color:rgb(252, 252, 252)">{{msg}}</b>
                               {% endfor %}
                               {% endif %}
                       <div class="card-footer">
