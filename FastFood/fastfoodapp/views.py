@@ -47,7 +47,7 @@ def restaurant_meals(request, id):
             # to show customers orders 
         customers_orders = Order.objects.all().filter(restaurants__id =id)
         # print('customer orders variable -----')
-        # print(customers_orders)
+        print(customers_orders)
         if customers_orders:
             recive_orders = customers_orders
             # print('recive orders variabel ----')
@@ -62,7 +62,7 @@ def restaurant_meals(request, id):
             meal_name = request.POST.get('name')
             meal_kind = request.POST.get('Kind')
             meal_size = request.POST.get('Size')
-            meal_prise= request.POST.get('Prise')
+            meal_prise= request.POST.get('Price')
             meal_Descr= request.POST.get('Description')
             meal_rate = request.POST.get('Rate')
             meal_image= request.POST.get('Image')
@@ -80,8 +80,8 @@ def restaurant_meals(request, id):
             )
             food_item.save()
             food_item.foods.add(Restaurant_id)
-            print('food item variable')
-            print(food_item)
+            # print('food item variable')
+            # print(food_item)
             
         #     return render(request, 'Mubarak html files/ManyToMany/restaurant.html', {})
         # else:
@@ -196,28 +196,42 @@ def history_of_orders(request, id):
     customerinfo = None
     history  = None
     message  = None
+    checkuesr= None
 
         #  get and check the user 
     checkuesr = Customer.objects.get(id=id)
+    print(checkuesr.phone)
     if checkuesr:
-        customerinfo = Customer.objects.get(id=id)
-        # print((customerinfo.C_Fname))
+        # customerinfo = Customer.objects.get(id=id)
         history= Order.objects.all().filter(customers__id=id)
         message = 'ther is no orders'
-        if history:
-            print(history)
-        
-        else:
-            pass
 
-        if customerinfo:
-            pass
+        # if request.method == 'POST':
+        #     A_1 = request.POST
+        #     customer_First_Name = request.POST.get('FName'),
+        #     customer_Last_Name  = request.POST.get('LName'),
+        #     customer_Email      = request.POST.get('email'),
+        #     customer_password   = request.POST.get('Password'),
+        #     customer_password_2 = request.POST.get('Password2'),
+        #     customer_Phone      = request.POST.get('Phone'),
+        #     customer_City       = request.POST.get('City'), 
+        #     customer_Area       = request.POST.get('Area')
+
+        #     checkuesr.objects.update(
+        #         user = customer_First_Name,
+        #         phone= customer_Phone,
+        #         City = customer_City,
+        #         Area = customer_Area
+        #     )
+
+
     
 
     return render(request, 'Mubarak html files/ManyToMany/customersOrders.html', {
-        'customerinfo': customerinfo,
+        # 'customerinfo': customerinfo,
         'history' : history,
-        'message' : message
+        'message' : message,
+        'checkuesr': checkuesr
     })
 
 
@@ -263,7 +277,7 @@ def Rmeal(request):
 #         return render(request, 'Mubarak html files/test.html', {})
 
 
-@csrf_exempt
+# @csrf_exempt
 def Outer_SearchBox(request):
     if request.method == "POST":
         outer_search = request.POST.get('searched')
@@ -332,16 +346,7 @@ def OrderPage(request, id):
         'orderImages': order.F_Images,
         'orderRate': order.F_Rate
     })
-    # else:
-    #     return render(request, 'Mubarak html files/OrdersPage.html', {
-    #         'order': order,
-    #         'orderName': order.It_Name,
-    #         'orderKink': order.It_Kind,
-    #         'orderSize': order.It_Prise,
-    #         'orderDescription': order.It_Descrip,
-    #         'orderImages': order.F_Images,
-    #         'orderRate': order.F_Rate
-    #     })
+
 
 
 

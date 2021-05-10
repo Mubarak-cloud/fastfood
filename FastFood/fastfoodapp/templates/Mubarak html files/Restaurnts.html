@@ -2,7 +2,7 @@
 {% load static %}
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Restaurants</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -42,10 +42,9 @@
 
     <nav>
         <div class="menu-icon"><span class="fas fa-bars"></span></div>
-        <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;">Otlob</a>
+        <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;color:orange"><i class="fas fa-pizza-slice" style="color:white"></i> Fast Food</a>
         <div class="nav-items">
             <li style="margin-left: 80px;"><a href="{% url 'aboutus'%}">About Us</a></li>
-            <li style="margin-left: 80px;"><a href="{% url 'Rmeals'%}">Foods</a></li>
             <li style="margin-left: 80px;"><a href="{% url 'RDFPage' %}">Restaurant</a></li>
         </div style="margin-left: 20px;">
         <div class="search-icon"><span class="fas fa-search"></span></div>

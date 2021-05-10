@@ -47,7 +47,7 @@ urlpatterns = [
     path('index/<int:id>',index,name="index"),
     path('testview/<int:id>',testview,name="testview"),
     path('RestaurantsPage', testview, name='RestaurantsPage'),
-    path('orderhistory/<int:id>',history_of_orders, name='orderHistory'),
+    path('CustomerPage/<int:id>',history_of_orders, name='CustomerPage'),
     path('typepage/',typepage,name="TypePage"),
 
 
