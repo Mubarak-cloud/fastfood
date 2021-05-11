@@ -30,7 +30,7 @@ def mainpage(request):
          )
 
     # Restaurant page functions 
-
+@login_required(login_url='loginRes')
 def restaurant_meals(request, id):
         #  globale variables for if condtions
     restaurant_meals = None
@@ -163,7 +163,7 @@ def RestaurantsPage(request, id ):
         
 
 
-    return render(request, 'Mubarak html files/ManyToMany/restaurant.html', {
+    return render(request, 'Mubarak html files/ManyToMany/restForCustomer.html', {
         #  to show current Restaurant data
         'R_id'      : Restaurant_id.id,
         'R_Image'   : Restaurant_id.R_Image,
@@ -191,6 +191,7 @@ def RestaurantsPage(request, id ):
                 
 
         # to show previous orders
+@login_required(login_url='customerlogin')
 def history_of_orders(request, id):
         #  global variables for if condations 
     customerinfo = None
@@ -208,21 +209,22 @@ def history_of_orders(request, id):
 
         # if request.method == 'POST':
         #     A_1 = request.POST
-        #     customer_First_Name = request.POST.get('FName'),
+        customer_First_Name = request.POST.get('FName'),
         #     customer_Last_Name  = request.POST.get('LName'),
         #     customer_Email      = request.POST.get('email'),
         #     customer_password   = request.POST.get('Password'),
         #     customer_password_2 = request.POST.get('Password2'),
-        #     customer_Phone      = request.POST.get('Phone'),
-        #     customer_City       = request.POST.get('City'), 
-        #     customer_Area       = request.POST.get('Area')
+        customer_Phone      = request.POST.get('Phone'),
+        customer_City       = request.POST.get('City'), 
+        customer_Area       = request.POST.get('Area')
 
-        #     checkuesr.objects.update(
-        #         user = customer_First_Name,
-        #         phone= customer_Phone,
-        #         City = customer_City,
-        #         Area = customer_Area
-        #     )
+        # checkuesr.objects.update(
+        #     user = customer_First_Name,
+        #     phone= customer_Phone,
+        #     City = customer_City,
+        #     Area = customer_Area
+        # )
+    
 
 
     
@@ -235,10 +237,29 @@ def history_of_orders(request, id):
     })
 
 
+def addtocard(request,cust_id,meal_id):
+    customerObj = Customer.objects.get(id=cust_id)
+    oederObj = FoodItem.objects.get(id=meal_id)
+    print(oederObj.It_Name,customerObj.C_Fname)
+
+    myorder=Addtocard.objects.create(
+        Customer_id=customerObj,
+        Food_it_id=oederObj
+        )
+
+    return render(request,'Mubarak html files/mainPage.html',{})
+
+
+def details(request):
+    foods_orders = Addtocard.objects.all()
+    return render(request,'details.html',{'foods_orders' : foods_orders})
+
+
 
 
 
     # Food Page function 
+
 def Rdessert(request):
     dessert = Restaurant.objects.all()
     # print("hi")
@@ -315,9 +336,10 @@ def OrderPage(request, id):
         # global variables for if condetions
     orders = None
 
+    current_user = request.user
     order = FoodItem.objects.get(id=id)
-    B = Restaurant.objects.all()
-    print(B[0].id)
+    # B = Restaurant.objects.all()
+    print(current_user)
     # print(order.foods)
     if order:
         # print(order)
@@ -329,9 +351,9 @@ def OrderPage(request, id):
             )
             orders.save()
             # print(orders)
-            A = Customer.objects.all()
-            orders.customers.add(A[0].id)
-            orders.restaurants.add(B[0].id)
+            orders.customers.add(current_user)
+            # A = Customer.objects.all()
+            # orders.restaurants.add(B[0].id)
 
             # orders.restaurants.set(order.foods)
             # orders.restaurants.add()

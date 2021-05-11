@@ -1,0 +1,105 @@
+html:{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'fastfoodapp/css/restaurant.css' %}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    
+
+    
+    <style>
+
+    
+    </style>
+    <script>
+    const menuBtn = document.querySelector(".menu-icon span");
+    const searchBtn = document.querySelector(".search-icon");
+    const cancelBtn = document.querySelector(".cancel-icon");
+    const items = document.querySelector(".nav-items");
+    const form = document.querySelector("form");
+    menuBtn.onclick = ()=>{
+      items.classList.add("active");
+      menuBtn.classList.add("hide");
+      searchBtn.classList.add("hide");
+      cancelBtn.classList.add("show");
+    }
+    cancelBtn.onclick = ()=>{
+      items.classList.remove("active");
+      menuBtn.classList.remove("hide");
+      searchBtn.classList.remove("hide");
+      cancelBtn.classList.remove("show");
+      form.classList.remove("active");
+      cancelBtn.style.color = "#ff3d00";
+    }
+    searchBtn.onclick = ()=>{
+      form.classList.add("active");
+      searchBtn.classList.add("hide");
+      cancelBtn.classList.add("show");
+    }
+  </script>
+
+</head>
+<body>
+    <nav>
+            <div class="menu-icon">
+      <span class="fas fa-bars"></span></div>
+      <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;">
+        Fast food</a>
+      <div class="nav-items">
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Foods</a></li>
+      <li><a href="{% url 'Restaurant' %}">Restaurant</a></li>
+      <li><a href="#">Feedback</a></li>
+      <li><a href="#">Log In</a></li>
+      <li><a href="{% url 'TypePage' %}">Log Up</a></li>
+      </div>
+      <div class="search-icon">
+      <span class="fas fa-search"></span></div>
+      <div class="cancel-icon">
+      <span class="fas fa-times"></span></div>
+      <form action="#">
+              <input type="search" class="search-data" placeholder="Search" required>
+              <button type="submit" class="fas fa-search"></button>
+            </form>
+      </nav>
+
+  
+      <div class="container" style="background-color:rgb(255, 255, 245);">
+        <div class="row" style="margin-top: 2%; background-color: indigo; text-align: center; padding: 1%;" >
+          <div  class=" col-sm-12">
+              <h1 style="color:gold; padding: 1%;text-align: center;">MY ORDERS</h1>
+          </div>
+      </div>
+      <div class="container" style="background-color:rgb(255, 255, 245);">
+
+
+        <div class="row" style="margin-top: 2%;" >
+      {% for item in foods_orders %}
+      <br><br>
+
+            <div id="blok" class=" col-md-6" >
+                <img id="pro" src="../static/fastfoodapp/images/img/perger1.jpeg" >
+                <h4>Meal_Name : {{item.Food_it_id.It_Name}}</h4>
+                <h4>Meal_Kind : {{item.Food_it_id.It_Kind}}</h4>
+                <h4>Meal_Size : {{item.Food_it_id.It_Size}}</h4>
+                <h4>Meal_Prise : {{item.Food_it_id.It_Prise}}</h4> 
+              
+
+            </div>
+      {% endfor %}
+
+        </div>
+        
+        
+        
+       
+    </div>
+</body>
+</html>

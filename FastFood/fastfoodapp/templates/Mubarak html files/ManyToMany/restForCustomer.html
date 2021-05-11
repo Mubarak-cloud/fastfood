@@ -41,7 +41,7 @@
                 rgba(0, 0, 250, 0.25), 
                 rgba(125, 250, 250, 0.45)
                 ),
-                url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.valBder6RROfqn1vTTrjDgHaEJ%26pid%3DApi&f=1);
+                url(https://source.unsplash.com/1600x1050/?nature);
                 background-repeat: no-repeat;
                 background-attachment: fixed;
                 color:white !important;
@@ -69,7 +69,7 @@
         <div class="conatainer" id="inf-div" style="text-align: center; border: 5px solid none;">
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
-                    <h1 class="display-2">{{user}}</h1>
+                    {% comment %} <h1 class="display-2">{{user}}</h1> {% endcomment %}
                     <p class="lead">{{R_Type}}</p>
                     <p class="lead">{{R_City}}</p>
                     <p class="lead">{{R_Area}}</p>
@@ -80,68 +80,7 @@
         <hr>
     
                     {% comment %} toggle section {% endcomment %}
-        <div class="conatainer" >
-            <p>
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
-                    style="margin-left: 30%;">
-                    Add Meal
-                </button>
-                <button class="btn btn-primary" type="button" data-toggle="collapse"  data-target="#multiCollapseExample2"  aria-expanded="false" aria-controls="multiCollapseExample2"
-                        style="margin-left: 30%">
-                    show orders
-                </button>
-            </p>
-                        {% comment %} add meal div {% endcomment %}
-            <div class="collapse" id="collapseExample" style="width: 30%;margin-left: 30%;">
-                <div class="card card-body">
-                    <form action="" method="POST"> {% csrf_token %} 
-                        <div class="form-group">
-                            <label for="name">Meal Name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Meal Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="Kind">Meal Kind</label>
-                            <input type="text" class="form-control" id="Kind" name="Kind" placeholder="Enter Meal Kind">
-                        </div>
-                        <div class="form-group">
-                            <label for="Size">Meal Size</label>
-                            <input type="text" class="form-control" id="Size" name="Size" placeholder="Enter Meal Size">
-                        </div>
-                        <div class="form-group">
-                            <label for="Price">Meal Price</label>
-                            <input type="number" class="form-control" id="Price" name="Price" placeholder="Enter Meal Price">
-                        </div>
-                        <div class="form-group">
-                            <label for="Description">Meal Description</label>
-                            <input type="text" class="form-control" id="Description" name="Description" placeholder="Enter Meal Description">
-                        </div>
-                        <div class="form-group">
-                            <label for="Rate">Meal Rate</label>
-                            <input type="number" class="form-control" id="Rate" name="Rate" placeholder="Enter Meal Rate">
-                        </div>
-                        <div class="form-group">
-                            <label for="Image">Meal  Image</label>
-                            <input type="file" class="form-control" id="Image" name="Image" placeholder="Upload Image">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-            </div>
-                        {% comment %} show orders div {% endcomment %}
-            <div class="collapse multi-collapse"  id="multiCollapseExample2" >
-                <div class="row">
-                {% for R in recive_orders %}
-                    <div class="card" style="text-align:center;">
-                        <P> orders </p>
-                        <div class="card-body">
-                                <h4>{{R.D_Name}}</h4>
-                        </div>
-                    </div>
-                {% endfor %}
-                </div>
-            </div>    
-        </div>
-
+    
 
                     {% comment %} show meals section {% endcomment %}
          <div  class="container" id="Food-cards" style="margin-top:10px; text-align: center;">

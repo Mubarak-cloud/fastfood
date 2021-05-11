@@ -114,11 +114,11 @@
                     <img class="card-img-top" src="{{r.R_Image.url}}" height=200px height=200px alt="card image">
                 {% comment %} </div> {% endcomment %}
                 <div class="card-body">
-                    <h6 class="card-title" style="text-align:center; font-size:1.5em">{{r.R_Name}}</h6>
+                    <h6 class="card-title" style="text-align:center; font-size:1.5em">{{r.user}}</h6>
                     <h6 class="card-title" style="text-align:center; font-size:1.5em">{{r.R_City}}</h6>
-                    <h6 class="card-title" style="text-align:center; font-size:1.5em">
+                    {% comment %} <h6 class="card-title" style="text-align:center; font-size:1.5em">
                         {{r.R_Rate}} <span class="fa fa-star checked"></span>
-                    </h6>
+                    </h6> {% endcomment %}
                 </div >
                 <div class="card-footer" style="text-align:center; font-size:1.5em">
                     <a class="btn btn-primary" href="/RestaurantsPage/{{r.id}}">Visit</a>

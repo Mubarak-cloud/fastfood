@@ -167,7 +167,7 @@
                     alt="" style="width:100%;"></div>
                 <div class="carousel-container">
                   <div class="carousel-content">
-                    <h2>Welcome to <span>Otlob</span></h2>
+                    <h2>Welcome to <span>Fast Food</span></h2>
                     <p>Do Not Worry About Food Anymore The FAVORITE and DELECHESE food is here</p>
                     {% comment %} <a href="#" class="contactus-btn">Contact Us</a> {% endcomment %}
                   </div>
@@ -250,10 +250,10 @@
                     <div class="card-body">
                         <h4 class="card-title">{{F.It_Name}}</h4>
                         <p class="card-text">{{F.It_Kind}}</p>
-                        <p class="card-text">
+                        {% comment %} <p class="card-text">
                           {{F.F_Rate}}<span class="fa fa-star checked"></span>
-                        </P>
-                        <a href="OrderPage/{{F.id}}"  class="btn btn-primary">See Description</a>
+                        </P> {% endcomment %}
+                        {% comment %} <a href="OrderPage/{{F.id}}"  class="btn btn-primary">See Description</a> {% endcomment %}
                         {% comment %} <a href="/OrderPage/{{F.id}}" class="btn btn-primary">Order</a> {% endcomment %}
                     </div>
                 </div>

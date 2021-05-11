@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static 
 from fastfoodapp.views import typepage,restaurant_Reg,restaurant,addmeal,delete,Aboutus,loginType,editmeal,yourorders,showorders,editinfo,restaurant_login,customer_reg,customer_login,logout_user
 from fastfoodapp.views import mainpage,RestaurantsPage,Rmeal,Outer_SearchBox,Rdessert,OrderPage,index,RestaurantsPage,ordertype,checktype,testview
-from fastfoodapp.views import history_of_orders,restaurant_meals
+from fastfoodapp.views import history_of_orders,restaurant_meals,addtocard,details
 
 
 urlpatterns = [
@@ -29,6 +29,8 @@ urlpatterns = [
     # -----------------------------------
     path('',mainpage,name="MainPage"),
     path('restaurant/<int:id>', restaurant_meals, name='restaurant'),
+    path('<int:cust_id>/<int:meal_id>',addtocard,name="Addtocard"),
+    path('details',details,name="Details"),
 
 
 
