@@ -183,7 +183,7 @@
                   alt="" style="width:100%"></div>
                 <div class="carousel-container">
                   <div class="carousel-content">
-                    <h2>Tody's Offer</h2>
+                    <h2>Today's Offer</h2>
                     {% comment %} <a href="#" class="contactus-btn">get The Offer</a> {% endcomment %}
                   </div>
                 </div>
@@ -195,7 +195,7 @@
                   alt="" style="width:100%"></div>
                 <div class="carousel-container">
                   <div class="carousel-content">
-                    <h2>Tody's Offer</h2>
+                    <h2>Today's Offer</h2>
                     {% comment %} <a href="#" class="contactus-btn">get The Offer</a> {% endcomment %}
                   </div>
                 </div>
@@ -253,10 +253,10 @@
                     <div class="card-body">
                         <h4 class="card-title">{{F.It_Name}}</h4>
                         <p class="card-text">{{F.It_Kind}}</p>
-                        <p class="card-text">
+                        {% comment %} <p class="card-text">
                           {{F.F_Rate}}<span class="fa fa-star checked"></span>
-                        </P>
-                        <a href="OrderPage/{{F.id}}"  class="btn btn-primary">See Description</a>
+                        </P> {% endcomment %}
+                        {% comment %} <a href="OrderPage/{{F.id}}"  class="btn btn-primary">See Description</a> {% endcomment %}
                         {% comment %} <a href="/OrderPage/{{F.id}}" class="btn btn-primary">Order</a> {% endcomment %}
                     </div>
                 </div>
@@ -274,7 +274,7 @@
 
      <hr>
      
-      <div id="sec-header">
+      {% comment %} <div id="sec-header">
           <h4>Restaurants<h4>
       </div>
 
@@ -297,7 +297,7 @@
           {% endfor %}
         </div>
         
-      </div>
+      </div> {% endcomment %}
 
 
 

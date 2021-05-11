@@ -30,7 +30,7 @@ def mainpage(request):
          )
 
     # Restaurant page functions 
-
+@login_required(login_url='loginRes')
 def restaurant_meals(request, id):
         #  globale variables for if condtions
     restaurant_meals = None
@@ -46,23 +46,23 @@ def restaurant_meals(request, id):
 
             # to show customers orders 
         customers_orders = Order.objects.all().filter(restaurants__id =id)
-        print('customer orders variable -----')
+        # print('customer orders variable -----')
         print(customers_orders)
         if customers_orders:
             recive_orders = customers_orders
-            print('recive orders variabel ----')
-            print(recive_orders)
+            # print('recive orders variabel ----')
+            # print(recive_orders)
         else:
             recive_orders = 'thers is no orders for today'
             # print(recive_orders)
 
-    else:
+
             #  to add new meal 
         if request.method == "POST":
             meal_name = request.POST.get('name')
             meal_kind = request.POST.get('Kind')
             meal_size = request.POST.get('Size')
-            meal_prise= request.POST.get('Prise')
+            meal_prise= request.POST.get('Price')
             meal_Descr= request.POST.get('Description')
             meal_rate = request.POST.get('Rate')
             meal_image= request.POST.get('Image')
@@ -80,8 +80,8 @@ def restaurant_meals(request, id):
             )
             food_item.save()
             food_item.foods.add(Restaurant_id)
-            print('food item variable')
-            print(food_item)
+            # print('food item variable')
+            # print(food_item)
             
         #     return render(request, 'Mubarak html files/ManyToMany/restaurant.html', {})
         # else:
@@ -163,7 +163,7 @@ def RestaurantsPage(request, id ):
         
 
 
-    return render(request, 'Mubarak html files/ManyToMany/restaurant.html', {
+    return render(request, 'Mubarak html files/ManyToMany/restForCustomer.html', {
         #  to show current Restaurant data
         'R_id'      : Restaurant_id.id,
         'R_Image'   : Restaurant_id.R_Image,
@@ -184,6 +184,45 @@ def RestaurantsPage(request, id ):
 
     })
 
+def addtocart(request, id):
+    foodid  = FoodItem.objects.all().get(id=id)
+    cart    = Addtocard.objects.all()
+    newcart = None
+    total_cost = 0
+    item = None
+
+    # print(foodid.F_Images)
+    # print(cart)
+    if foodid :
+        newcart = Addtocard(
+            name    = foodid.It_Name ,   
+            kind    = foodid.It_Kind , 
+            size    = foodid.It_Size , 
+            prise   = foodid.It_Prise , 
+            descrip = foodid.It_Descrip , 
+            images  = foodid.F_Images , 
+    
+        )
+        newcart.save()
+        for p in cart:
+            total_cost += p.prise
+            # item = [p] 
+            # number_objc = p.
+        A = Addtocard.objects.all().count()
+        objects = Addtocard.objects.all()
+        print(objects)
+        for c in cart:
+            restOrders = Order(
+                D_Name = c.name,
+                D_totalCost = c.prise,
+                # restaurants.set(id)
+            )
+            restOrders.save()
+    return render(request, 'Mubarak html files/ManyToMany/addtocart.html',{
+            'foodid'    : foodid,
+            'cart'   : cart,
+            'total_cost' : total_cost,
+    })
 
 
 
@@ -191,40 +230,75 @@ def RestaurantsPage(request, id ):
                 
 
         # to show previous orders
+@login_required(login_url='customerlogin')
 def history_of_orders(request, id):
         #  global variables for if condations 
     customerinfo = None
     history  = None
     message  = None
+    checkuesr= None
 
         #  get and check the user 
     checkuesr = Customer.objects.get(id=id)
+    print(checkuesr.phone)
     if checkuesr:
-        customerinfo = Customer.objects.get(id=id)
-        # print((customerinfo.C_Fname))
+        # customerinfo = Customer.objects.get(id=id)
         history= Order.objects.all().filter(customers__id=id)
         message = 'ther is no orders'
-        if history:
-            print(history)
-        
-        else:
-            pass
 
-        if customerinfo:
-            pass
+        # if request.method == 'POST':
+        #     A_1 = request.POST
+        # customer_First_Name = request.POST.get('FName'),
+        #     customer_Last_Name  = request.POST.get('LName'),
+        #     customer_Email      = request.POST.get('email'),
+        #     customer_password   = request.POST.get('Password'),
+        #     customer_password_2 = request.POST.get('Password2'),
+        # customer_Phone      = request.POST.get('Phone'),
+        # customer_City       = request.POST.get('City'), 
+        # customer_Area       = request.POST.get('Area')
+
+        # checkuesr.objects.update(
+        #     user = customer_First_Name,
+        #     phone= customer_Phone,
+        #     City = customer_City,
+        #     Area = customer_Area
+        # )
+    
+
+
     
 
     return render(request, 'Mubarak html files/ManyToMany/customersOrders.html', {
-        'customerinfo': customerinfo,
+        # 'customerinfo': customerinfo,
         'history' : history,
-        'message' : message
+        'message' : message,
+        'checkuesr': checkuesr
     })
+
+
+def addtocard(request,cust_id,meal_id):
+    customerObj = Customer.objects.get(id=cust_id)
+    oederObj = FoodItem.objects.get(id=meal_id)
+    print(oederObj.It_Name,customerObj.C_Fname)
+
+    myorder=Addtocard.objects.create(
+        Customer_id=customerObj,
+        Food_it_id=oederObj
+        )
+
+    return render(request,'Mubarak html files/mainPage.html',{})
+
+
+def details(request):
+    foods_orders = Addtocard.objects.all()
+    return render(request,'details.html',{'foods_orders' : foods_orders})
 
 
 
 
 
     # Food Page function 
+
 def Rdessert(request):
     dessert = Restaurant.objects.all()
     # print("hi")
@@ -263,7 +337,7 @@ def Rmeal(request):
 #         return render(request, 'Mubarak html files/test.html', {})
 
 
-@csrf_exempt
+# @csrf_exempt
 def Outer_SearchBox(request):
     if request.method == "POST":
         outer_search = request.POST.get('searched')
@@ -298,38 +372,42 @@ def index(request, id):
 
 
 def OrderPage(request, id):
-    order = FoodItem.objects.get(id=id)
-    if request.method == "POST":
-        # print(order)
-        orders = Order(
-            D_Name = order.It_Name,
-            D_totalCost = order.It_Prise,
-        )
-        orders.save()
-        # print(orders)
-        A = Customer.objects.all()
-        # print(A[0].id)
-        orders.customers.add(A[0].id)
+        # global variables for if condetions
+    orders = None
 
-        return render(request, 'Mubarak html files/OrdersPage.html', {
-            'order': order,
-            'orderName': order.It_Name,
-            'orderKink': order.It_Kind,
-            'orderSize': order.It_Prise,
-            'orderDescription': order.It_Descrip,
-            'orderImages': order.F_Images,
-            'orderRate': order.F_Rate
-        })
-    else:
-        return render(request, 'Mubarak html files/OrdersPage.html', {
-            'order': order,
-            'orderName': order.It_Name,
-            'orderKink': order.It_Kind,
-            'orderSize': order.It_Prise,
-            'orderDescription': order.It_Descrip,
-            'orderImages': order.F_Images,
-            'orderRate': order.F_Rate
-        })
+    current_user = request.user
+    order = FoodItem.objects.get(id=id)
+    # B = Restaurant.objects.all()
+    print(current_user)
+    # print(order.foods)
+    if order:
+        # print(order)
+        if request.method == "POST":
+            # print(order)
+            orders = Order(
+                D_Name = order.It_Name,
+                D_totalCost = order.It_Prise,
+            )
+            orders.save()
+            # print(orders)
+            orders.customers.add(current_user)
+            # A = Customer.objects.all()
+            # orders.restaurants.add(B[0].id)
+
+            # orders.restaurants.set(order.foods)
+            # orders.restaurants.add()
+            # print(orders)
+
+    return render(request, 'Mubarak html files/OrdersPage.html', {
+        'order': order,
+        'orderName': order.It_Name,
+        'orderKink': order.It_Kind,
+        'orderSize': order.It_Prise,
+        'orderDescription': order.It_Descrip,
+        'orderImages': order.F_Images,
+        'orderRate': order.F_Rate
+    })
+
 
 
 

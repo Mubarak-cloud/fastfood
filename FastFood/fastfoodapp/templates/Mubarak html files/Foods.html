@@ -3,7 +3,7 @@
 {% comment %} {% csrf_token %} {% endcomment %}
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Food Page</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -47,7 +47,7 @@
         <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;color:orange"><i class="fas fa-pizza-slice" style="color:white"></i> Fast Food</a>
   
         <div class="nav-items">
-            <ul style="display:flex">
+            <ul style="display:flex;margin-top: 15px;">
                 <li><a href="{% url 'aboutus'%}">About Us</a></li>
                 <!-- <li><a href="{% url 'Rmeals'%}">Foods</a></li> -->
                 <li><a href="{% url 'RDFPage' %}">Restaurants</a></li>
@@ -66,9 +66,7 @@
         </div>
         {% endif %}
     </nav>
-    <style>
-
-    </style>
+  
 
 
     <script>

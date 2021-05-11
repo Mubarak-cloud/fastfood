@@ -15,6 +15,8 @@ admin.site.register(FoodItem)
 
 admin.site.register(Order)
 
+admin.site.register(Addtocard)
+
 
 
 

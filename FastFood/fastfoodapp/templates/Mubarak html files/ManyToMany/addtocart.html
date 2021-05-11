@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'fastfoodapp/css/restaurant.css' %}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    
+
+    
+    <style>
+
+    
+    </style>
+    <script>
+    const menuBtn = document.querySelector(".menu-icon span");
+    const searchBtn = document.querySelector(".search-icon");
+    const cancelBtn = document.querySelector(".cancel-icon");
+    const items = document.querySelector(".nav-items");
+    const form = document.querySelector("form");
+    menuBtn.onclick = ()=>{
+      items.classList.add("active");
+      menuBtn.classList.add("hide");
+      searchBtn.classList.add("hide");
+      cancelBtn.classList.add("show");
+    }
+    cancelBtn.onclick = ()=>{
+      items.classList.remove("active");
+      menuBtn.classList.remove("hide");
+      searchBtn.classList.remove("hide");
+      cancelBtn.classList.remove("show");
+      form.classList.remove("active");
+      cancelBtn.style.color = "#ff3d00";
+    }
+    searchBtn.onclick = ()=>{
+      form.classList.add("active");
+      searchBtn.classList.add("hide");
+      cancelBtn.classList.add("show");
+    }
+  </script>
+
+</head>
+<body>
+  <nav>
+    <div class="menu-icon"><span class="fas fa-bars"></span></div>
+    <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;color:orange"><i class="fas fa-pizza-slice" style="color:white"></i> Fast Food</a>
+
+    <div class="nav-items">
+        <ul style="display:flex;margin-top: 15px;">
+            <li><a href="{% url 'aboutus'%}">About Us</a></li>
+            <!-- <li><a href="{% url 'Rmeals'%}">Foods</a></li> -->
+            <li><a href="{% url 'RDFPage' %}">Restaurants</a></li>
+        </ul>
+    </div>
+     {% if user.is_authenticated%}
+     <ul style="display: flex; margin-top: 20px;">
+      <li><a href="{% url 'logout' %}" style="color:white;text-decoration:none;margin-right: 15px;"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><p style="color:orange"><span><i class="far fa-user"></i></span> Welcome , {{user.username}}</p></li>
+     </ul>
+    
+    {% else %}
+    <div style="display:flex;margin-bottom: 5px;">
+              <li><a href="{% url 'loginType' %}" style="color:white;text-decoration:none"><i class="fas fa-sign-in-alt"></i> Log In</a></li>
+              <li><a href="{% url 'TypePage' %}" style="color:white;text-decoration:none"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+    </div>
+    {% endif %}
+</nav>
+
+  
+      <div class="container" style="background-color:rgb(255, 255, 245);">
+        <div class="row" style="margin-top: 2%; background-color: indigo; text-align: center; padding: 1%;" >
+          <div  class=" col-sm-12">
+              <h1 style="color:gold; padding: 1%;text-align: center;">MY ORDERS</h1>
+          </div>
+      </div>
+
+
+        <div  class="container" id="Food-cards" style="margin-top:10px; text-align: center;">
+        <div class="row" style="margin-left: 0.5%;">
+            {% for F in cart %}
+                <div class="card" style="width:300px; margin-left: 2%; margin-top: 2%;">
+                    <img class="card-img-top" src="{{F.images.url}}" height=200px width=200px alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">{{F.name}}</h4>
+                        <p class="card-text" style="text-align: center;">{{F.prise}}</p>
+                        {% comment %} <p class="card-text">
+                          {{F.F_Rate}}<span class="fa fa-star checked"></span>
+                        </P> {% endcomment %}
+                        {% comment %} <a href="OrderPage/{{F.id}}"  class="btn btn-primary">See Description</a> {% endcomment %}
+                        {% comment %} <a href="/OrderPage/{{F.id}}" class="btn btn-primary">Order</a> {% endcomment %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div> 
+    </div>
+        
+        
+        
+       
+    </div>
+</body>
+</html>
