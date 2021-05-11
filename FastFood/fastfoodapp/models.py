@@ -98,8 +98,13 @@ class Order(models.Model):
 
 
 class Addtocard(models.Model):
-    Customer_id = models.ForeignKey(Customer(),default=0,on_delete=models.SET_DEFAULT)
-    Food_it_id = models.ForeignKey(FoodItem(),default=0,on_delete=models.SET_DEFAULT)
+    name = models.CharField(max_length=200, default='null')
+    kind = models.CharField(max_length=200, default='null')
+    size = models.CharField(max_length=200, default='null')
+    prise = models.IntegerField(default= 0, null=True)
+    descrip = models.CharField(max_length=200, default='null')
+    images= models.ImageField(upload_to='media/media/media/media', default='null')
+    
     
     
     

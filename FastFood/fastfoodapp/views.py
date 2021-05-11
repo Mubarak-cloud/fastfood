@@ -184,6 +184,45 @@ def RestaurantsPage(request, id ):
 
     })
 
+def addtocart(request, id):
+    foodid  = FoodItem.objects.all().get(id=id)
+    cart    = Addtocard.objects.all()
+    newcart = None
+    total_cost = 0
+    item = None
+
+    # print(foodid.F_Images)
+    # print(cart)
+    if foodid :
+        newcart = Addtocard(
+            name    = foodid.It_Name ,   
+            kind    = foodid.It_Kind , 
+            size    = foodid.It_Size , 
+            prise   = foodid.It_Prise , 
+            descrip = foodid.It_Descrip , 
+            images  = foodid.F_Images , 
+    
+        )
+        newcart.save()
+        for p in cart:
+            total_cost += p.prise
+            # item = [p] 
+            # number_objc = p.
+        A = Addtocard.objects.all().count()
+        objects = Addtocard.objects.all()
+        print(objects)
+        for c in cart:
+            restOrders = Order(
+                D_Name = c.name,
+                D_totalCost = c.prise,
+                # restaurants.set(id)
+            )
+            restOrders.save()
+    return render(request, 'Mubarak html files/ManyToMany/addtocart.html',{
+            'foodid'    : foodid,
+            'cart'   : cart,
+            'total_cost' : total_cost,
+    })
 
 
 
@@ -209,14 +248,14 @@ def history_of_orders(request, id):
 
         # if request.method == 'POST':
         #     A_1 = request.POST
-        customer_First_Name = request.POST.get('FName'),
+        # customer_First_Name = request.POST.get('FName'),
         #     customer_Last_Name  = request.POST.get('LName'),
         #     customer_Email      = request.POST.get('email'),
         #     customer_password   = request.POST.get('Password'),
         #     customer_password_2 = request.POST.get('Password2'),
-        customer_Phone      = request.POST.get('Phone'),
-        customer_City       = request.POST.get('City'), 
-        customer_Area       = request.POST.get('Area')
+        # customer_Phone      = request.POST.get('Phone'),
+        # customer_City       = request.POST.get('City'), 
+        # customer_Area       = request.POST.get('Area')
 
         # checkuesr.objects.update(
         #     user = customer_First_Name,

@@ -1,4 +1,4 @@
-html:{% load static %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,25 +77,26 @@ html:{% load static %}
               <h1 style="color:gold; padding: 1%;text-align: center;">MY ORDERS</h1>
           </div>
       </div>
-      <div class="container" style="background-color:rgb(255, 255, 245);">
 
 
-        <div class="row" style="margin-top: 2%;" >
-      {% for item in foods_orders %}
-      <br><br>
-
-            <div id="blok" class=" col-md-6" >
-                <img id="pro" src="../static/fastfoodapp/images/img/perger1.jpeg" >
-                <h4>Meal_Name : {{item.Food_it_id.It_Name}}</h4>
-                <h4>Meal_Kind : {{item.Food_it_id.It_Kind}}</h4>
-                <h4>Meal_Size : {{item.Food_it_id.It_Size}}</h4>
-                <h4>Meal_Prise : {{item.Food_it_id.It_Prise}}</h4> 
-              
-
-            </div>
-      {% endfor %}
-
-        </div>
+        <div  class="container" id="Food-cards" style="margin-top:10px; text-align: center;">
+        <div class="row" style="margin-left: 0.5%;">
+            {% for F in cart %}
+                <div class="card" style="width:300px; margin-left: 2%; margin-top: 2%;">
+                    <img class="card-img-top" src="{{F.images.url}}" height=200px width=200px alt="Card image">
+                    <div class="card-body">
+                        <h4 class="card-title">{{F.name}}</h4>
+                        <p class="card-text" style="text-align: center;">{{F.prise}}</p>
+                        {% comment %} <p class="card-text">
+                          {{F.F_Rate}}<span class="fa fa-star checked"></span>
+                        </P> {% endcomment %}
+                        {% comment %} <a href="OrderPage/{{F.id}}"  class="btn btn-primary">See Description</a> {% endcomment %}
+                        {% comment %} <a href="/OrderPage/{{F.id}}" class="btn btn-primary">Order</a> {% endcomment %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div> 
+    </div>
         
         
         
