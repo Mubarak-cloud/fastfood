@@ -59,6 +59,7 @@
         </ul>
     </div>
      {% if user.is_authenticated%}
+<<<<<<< HEAD
      <ul style="display: flex; margin-top: 20px;">
       <li><a href="{% url 'logout' %}" style="color:white;text-decoration:none;margin-right: 15px;"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
       <li><p style="color:orange"><span><i class="far fa-user"></i></span> Welcome , {{user.username}}</p></li>
@@ -71,6 +72,41 @@
     </div>
     {% endif %}
 </nav>
+=======
+    
+
+     <ul style="display: flex;margin: 15px;">
+      <li><a href="{% url 'logout' %}" style="color:white;text-decoration:none;margin-right: 15px;"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><h5 style="color:orange;margin-right: 15px;"><span><i class="far fa-user"></i></span> Welcome , {{user.username}}</h5></li>
+
+
+     </ul>
+      
+    {% else %}
+    <div style="display:flex;">
+              <li><a href="{% url 'loginType' %}" style="color:white;text-decoration:none"><i class="fas fa-sign-in-alt"></i> Log In</a></li>
+              <li><a href="{% url 'TypePage' %}" style="color:white;text-decoration:none"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+    </div>
+    
+    {% endif %}
+</nav>
+      <div class="row" style="margin-top: 2%;" >
+        {% for item in foods_orders %}
+        <br><br>
+  
+              <div id="blok" class=" col-md-6" >
+                  <img id="pro" src="../static/fastfoodapp/images/img/perger1.jpeg" >
+                  <h4>Meal_Name : {{item.Food_it_id.It_Name}}</h4>
+                  <h4>Meal_Kind : {{item.Food_it_id.It_Kind}}</h4>
+                  <h4>Meal_Size : {{item.Food_it_id.It_Size}}</h4>
+                  <h4>Meal_Prise : {{item.Food_it_id.It_Prise}}</h4> 
+                
+  
+              </div>
+        {%endfor%}
+  
+          </div>
+>>>>>>> main
 
   
       

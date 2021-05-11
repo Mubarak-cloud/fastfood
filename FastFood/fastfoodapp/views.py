@@ -276,10 +276,10 @@ def history_of_orders(request, id):
     })
 
 
-def addtocard(request,cust_id,meal_id):
-    customerObj = Customer.objects.get(id=cust_id)
-    oederObj = FoodItem.objects.get(id=meal_id)
-    print(oederObj.It_Name,customerObj.C_Fname)
+def addtocard(request,id,id2):
+    customerObj = Customer.objects.get(id=id)
+    oederObj = FoodItem.objects.get(id=id2)
+    # print(oederObj.user.username,customerObj.user.username)
 
     myorder=Addtocard.objects.create(
         Customer_id=customerObj,

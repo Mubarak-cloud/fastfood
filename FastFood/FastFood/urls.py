@@ -29,11 +29,16 @@ urlpatterns = [
     # -----------------------------------
     path('',mainpage,name="MainPage"),
     path('restaurant/<int:id>', restaurant_meals, name='restaurant'),
+<<<<<<< HEAD
     path('CustomerPage/<int:id>',history_of_orders, name='CustomerPage'),
 
     path('RestaurantsPage/RestaurantsPage/addtocart/<int:id>',addtocart,name="addtocart"),
 
     # path('details',details,name="Details"),
+=======
+    path('<int:id>/<int:id2>',addtocard,name="Addtocard"),
+    path('details',details,name="Details"),
+>>>>>>> main
 
 
 
