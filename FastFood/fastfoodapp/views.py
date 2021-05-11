@@ -239,7 +239,7 @@ def history_of_orders(request, id):
     checkuesr= None
 
         #  get and check the user 
-    checkuesr = Customer.objects.get(id=id)
+    checkuesr = Customer.objects.get(user_id= id)
     print(checkuesr.phone)
     if checkuesr:
         # customerinfo = Customer.objects.get(id=id)
@@ -509,15 +509,18 @@ def restaurant_Reg(request):
         return redirect('loginRes')
     return render(request,'regestrationforrestuarnt.html',{})
 
-def restaurant_login(request):
-    
+
+
+
+def restaurant_login(request, id):
+    restaurant_id = Restaurant.objects.get(id=id)
     cd = request.POST
 
     if request.method == "POST":
         user = authenticate(request, username=get_user_model().objects.filter(email=cd['email'])[0].username, password=cd['password'])
         if user:
             login(request, user)
-            return redirect('/')
+            return redirect('restaurant/'+str(restaurant_id))
         else:
             messages.warning(request, 'invalid email or password')
             return redirect('loginRes')

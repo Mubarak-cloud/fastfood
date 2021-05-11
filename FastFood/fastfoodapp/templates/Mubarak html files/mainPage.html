@@ -100,7 +100,9 @@
           </ul>
       </div>
        {% if user.is_authenticated%}
-              <li><p style="color:orange"><span><i class="far fa-user"></i></span> Welcome , {{user.username}}</p></li>
+              <li><p style="color:orange"><span><i class="far fa-user"></i></span> Welcome , 
+              <a href="/CustomerPage/{{user.id}}">{{user.username}}</a>
+              </p></li>
               <li><a href="{% url 'logout' %}" style="color:white;text-decoration:none"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
       {% else %}
       <div style="display:flex;">
@@ -254,7 +256,7 @@
                           {{F.F_Rate}}<span class="fa fa-star checked"></span>
                         </P> {% endcomment %}
                         {% comment %} <a href="OrderPage/{{F.id}}"  class="btn btn-primary">See Description</a> {% endcomment %}
-                        {% comment %} <a href="/OrderPage/{{F.id}}" class="btn btn-primary">Order</a> {% endcomment %}
+                        <a href="/OrderPage/{{F.id}}" class="btn btn-primary">Order</a>
                     </div>
                 </div>
             {% endfor %}
