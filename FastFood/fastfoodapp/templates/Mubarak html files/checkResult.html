@@ -69,25 +69,29 @@
   <body>
     
     <nav>
-        <div class="menu-icon"><span class="fas fa-bars"></span></div>
-        <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;">Otlob</a>
-        <div class="nav-items">
-            <li><a href="{% url 'aboutus'%}">About Us</a></li>
-            <li><a href="#">Foods</a></li>
-            <li><a href="{% url 'Restaurant' %}">Restaurant</a></li>
-            <li><a href="#">Feedback</a></li>
-            <li><a href="{% url 'loginType' %}">Sign In</a></li>
-            <li><a href="{% url 'TypePage' %}">Sign Up</a></li>
-            <!-- {% for i in Restobject %}
-              <p style="color:orange">{{i.R_Email}}</p>
-            {% endfor %} -->
-            <!-- {% for i in Restobject %}
-              <p style="color: orange;">Hello, {{i.R_Email}}</p>
-            {% endfor %} -->
-        </div>
-        <div class="search-icon"><span class="fas fa-search"></span></div>
-        <div class="cancel-icon"><span class="fas fa-times"></span></div>
-    </nav>
+      <div class="menu-icon"><span class="fas fa-bars"></span></div>
+      <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;color:orange"><i class="fas fa-pizza-slice" style="color:white"></i> Fast Food</a>
+
+      <div class="nav-items">
+          <ul style="display:flex;margin-top: 15px;">
+              <li><a href="{% url 'aboutus'%}">About Us</a></li>
+              <!-- <li><a href="{% url 'Rmeals'%}">Foods</a></li> -->
+              <li><a href="{% url 'RDFPage' %}">Restaurants</a></li>
+          </ul>
+      </div>
+       {% if user.is_authenticated%}
+       <ul style="display: flex; margin-top: 20px;">
+        <li><a href="{% url 'logout' %}" style="color:white;text-decoration:none;margin-right: 15px;"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        <li><p style="color:orange"><span><i class="far fa-user"></i></span> Welcome , {{user.username}}</p></li>
+       </ul>
+      
+      {% else %}
+      <div style="display:flex;margin-bottom: 5px;">
+                <li><a href="{% url 'loginType' %}" style="color:white;text-decoration:none"><i class="fas fa-sign-in-alt"></i> Log In</a></li>
+                <li><a href="{% url 'TypePage' %}" style="color:white;text-decoration:none"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+      </div>
+      {% endif %}
+  </nav>
   
 <script>
     const menuBtn = document.querySelector(".menu-icon span");
@@ -157,7 +161,7 @@
           <div class="container">
               <div class="row">
                   <div class="col-12">
-                      <p class="text-center mb-2">&copy; Copyright <strong>Otlob</strong>. All Rights Reserved</p>
+                      <p class="text-center mb-2">&copy; Copyright <strong>Fast Food</strong>. All Rights Reserved</p>
                       <p class="text-center mb-0">Created by <a href="https://www.markuptag.com/">Otlob</a></p>
                   </div>
               </div>
