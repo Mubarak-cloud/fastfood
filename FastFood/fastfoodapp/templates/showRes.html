@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style>
+    img:hover{
+        opacity: 0.5;
+    }
+</style>
+</head>
+<body>
+    <!-- <div class="card text-center" style="margin-top: 30px;">
+        <div class="card-header" style="font-weight: bolder; font-size: 25px;">
+          Hello, {{user.username}}
+        </div>
+        <div class="card-body">
+          <a href="/restaurant/{{user.id}}" class="btn btn-primary">Go To Resturant</a>
+        </div>
+      
+      </div> -->
+      <div class="card" style="width: 18rem; margin: auto; margin-top: 30px;">
+        <img class="card-img-top" src="https://lh3.googleusercontent.com/proxy/jBwYv_RIcvvgg0WNjQ5YpQ0ddpVgGq9ACG9Y4x0KXi0Y8UsNeu0lHYiysO7vQwJLwEmqiLSwuOjkO6Gl7C9jJEhL-6PbuASfajLgUlm0e-4PzphLyJCuZA" alt="Card image cap" width="300" height="300" style="border-radius: 30px; border: 2px solid #000;">
+        <div class="card-body text-center" style="margin-left: 70px;">
+          <p class="card-text">Welcome , <span style="color:red;font-size:25px;font-weight:bolder">{{user.username}}</span></p>
+          <a href="/restaurant/{{user.id}}" class="btn btn-primary">Go To Resturant</a>
+
+        </div>
+      </div>
+    
+</body>
+</html>

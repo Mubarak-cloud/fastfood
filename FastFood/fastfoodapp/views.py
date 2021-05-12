@@ -38,7 +38,7 @@ def restaurant_meals(request, id):
     recive_orders    = None
     food_item        = None
         #  to show current Restaurant data
-    Restaurant_id = Restaurant.objects.get(id=id)
+    Restaurant_id = Restaurant.objects.get(user_id=id)
     if Restaurant_id :
             #  to show restaurant meals
         restaurant_meals = FoodItem.objects.filter(foods__id=id)
@@ -239,7 +239,7 @@ def history_of_orders(request, id):
     checkuesr= None
 
         #  get and check the user 
-    checkuesr = Customer.objects.get(id=id)
+    checkuesr = Customer.objects.get(user_id=id)
     print(checkuesr.phone)
     if checkuesr:
         # customerinfo = Customer.objects.get(id=id)
@@ -489,6 +489,10 @@ def testview(request, id):
 def typepage(request):
     return render(request,'typePage.html',{})
 
+def showRes(request):
+    return render(request,'showRes.html',{})
+
+
 def restaurant_Reg(request):
     if request.method == "POST":
         cd = request.POST
@@ -512,12 +516,15 @@ def restaurant_Reg(request):
 def restaurant_login(request):
     
     cd = request.POST
-
+    # res_id=Restaurant.objects.get(user_id=id)
     if request.method == "POST":
         user = authenticate(request, username=get_user_model().objects.filter(email=cd['email'])[0].username, password=cd['password'])
         if user:
             login(request, user)
-            return redirect('/')
+            # return redirect('restaurant',instance=str(res_id))
+            return redirect('showRes')
+            
+            return redirect('restaurant',instance=str(user.id))
         else:
             messages.warning(request, 'invalid email or password')
             return redirect('loginRes')

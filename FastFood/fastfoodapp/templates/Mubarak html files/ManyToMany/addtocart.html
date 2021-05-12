@@ -59,7 +59,6 @@
         </ul>
     </div>
      {% if user.is_authenticated%}
-<<<<<<< HEAD
      <ul style="display: flex; margin-top: 20px;">
       <li><a href="{% url 'logout' %}" style="color:white;text-decoration:none;margin-right: 15px;"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
       <li><p style="color:orange"><span><i class="far fa-user"></i></span> Welcome , {{user.username}}</p></li>
@@ -70,23 +69,6 @@
               <li><a href="{% url 'loginType' %}" style="color:white;text-decoration:none"><i class="fas fa-sign-in-alt"></i> Log In</a></li>
               <li><a href="{% url 'TypePage' %}" style="color:white;text-decoration:none"><i class="fas fa-user-plus"></i> Sign Up</a></li>
     </div>
-=======
-    
-
-     <ul style="display: flex;margin: 15px;">
-      <li><a href="{% url 'logout' %}" style="color:white;text-decoration:none;margin-right: 15px;"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
-      <li><h5 style="color:orange;margin-right: 15px;"><span><i class="far fa-user"></i></span> Welcome , {{user.username}}</h5></li>
-
-
-     </ul>
-      
-    {% else %}
-    <div style="display:flex;">
-              <li><a href="{% url 'loginType' %}" style="color:white;text-decoration:none"><i class="fas fa-sign-in-alt"></i> Log In</a></li>
-              <li><a href="{% url 'TypePage' %}" style="color:white;text-decoration:none"><i class="fas fa-user-plus"></i> Sign Up</a></li>
-    </div>
-    
->>>>>>> main
     {% endif %}
 </nav>
 

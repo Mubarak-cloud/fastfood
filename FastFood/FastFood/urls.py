@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static 
-from fastfoodapp.views import typepage,restaurant_Reg,restaurant,addmeal,delete,Aboutus,loginType,editmeal,yourorders,showorders,editinfo,restaurant_login,customer_reg,customer_login,logout_user
+from fastfoodapp.views import typepage,restaurant_Reg,restaurant,addmeal,delete,Aboutus,loginType,editmeal,yourorders,showorders,editinfo,restaurant_login,customer_reg,customer_login,logout_user,addtocard,details,showRes
 from fastfoodapp.views import mainpage,RestaurantsPage,Rmeal,Outer_SearchBox,Rdessert,OrderPage,index,RestaurantsPage,ordertype,checktype,testview
 from fastfoodapp.views import history_of_orders,restaurant_meals,addtocart
 
@@ -29,16 +29,14 @@ urlpatterns = [
     # -----------------------------------
     path('',mainpage,name="MainPage"),
     path('restaurant/<int:id>', restaurant_meals, name='restaurant'),
-<<<<<<< HEAD
     path('CustomerPage/<int:id>',history_of_orders, name='CustomerPage'),
+    path('showRes',showRes, name='showRes'),
 
     path('RestaurantsPage/RestaurantsPage/addtocart/<int:id>',addtocart,name="addtocart"),
 
     # path('details',details,name="Details"),
-=======
     path('<int:id>/<int:id2>',addtocard,name="Addtocard"),
     path('details',details,name="Details"),
->>>>>>> main
 
 
 
