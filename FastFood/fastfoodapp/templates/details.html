@@ -47,28 +47,47 @@
 
 </head>
 <body>
-    <nav>
-            <div class="menu-icon">
-      <span class="fas fa-bars"></span></div>
-      <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;">
-        Otlob</a>
-      <div class="nav-items">
-      <li><a href="#">About Us</a></li>
-      <li><a href="#">Foods</a></li>
-      <li><a href="{% url 'Restaurant' %}">Restaurant</a></li>
-      <li><a href="#">Feedback</a></li>
-      <li><a href="#">Log In</a></li>
-      <li><a href="{% url 'TypePage' %}">Log Up</a></li>
-      </div>
-      <div class="search-icon">
-      <span class="fas fa-search"></span></div>
-      <div class="cancel-icon">
-      <span class="fas fa-times"></span></div>
-      <form action="#">
-              <input type="search" class="search-data" placeholder="Search" required>
-              <button type="submit" class="fas fa-search"></button>
-            </form>
-      </nav>
+  <nav>
+    <div class="menu-icon"><span class="fas fa-bars"></span></div>
+    <a href="{% url 'MainPage' %}" class="logo" style="text-decoration: none;color:orange"><i class="fas fa-pizza-slice" style="color:white"></i> Fast Food</a>
+
+    <div class="nav-items">
+        <ul style="display:flex;margin-top: 15px;">
+            <li><a href="{% url 'aboutus'%}">About Us</a></li>
+            <!-- <li><a href="{% url 'Rmeals'%}">Foods</a></li> -->
+            <li><a href="{% url 'RDFPage' %}">Restaurants</a></li>
+        </ul>
+    </div>
+     {% if user.is_authenticated%}
+     <ul style="display: flex; margin-top: 20px;">
+      <li><a href="{% url 'logout' %}" style="color:white;text-decoration:none;margin-right: 15px;"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><p style="color:orange"><span><i class="far fa-user"></i></span> Welcome , {{user.username}}</p></li>
+     </ul>
+    
+    {% else %}
+    <div style="display:flex;margin-bottom: 5px;">
+              <li><a href="{% url 'loginType' %}" style="color:white;text-decoration:none"><i class="fas fa-sign-in-alt"></i> Log In</a></li>
+              <li><a href="{% url 'TypePage' %}" style="color:white;text-decoration:none"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+    </div>
+    {% endif %}
+</nav>
+      <div class="row" style="margin-top: 2%;" >
+        {% for item in foods_orders %}
+        <br><br>
+  
+              <div id="blok" class=" col-md-6" >
+                  <img id="pro" src="../static/fastfoodapp/images/img/perger1.jpeg" >
+                  <h4>Meal_Name : {{item.Food_it_id.It_Name}}</h4>
+                  <h4>Meal_Kind : {{item.Food_it_id.It_Kind}}</h4>
+                  <h4>Meal_Size : {{item.Food_it_id.It_Size}}</h4>
+                  <h4>Meal_Prise : {{item.Food_it_id.It_Prise}}</h4> 
+                
+  
+              </div>
+        {%endfor%}
+  
+          </div>
+>>>>>>> main
 
   
       

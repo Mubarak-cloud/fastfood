@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models.deletion import CASCADE 
 # from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 # # from __future__ import unicode_literals
@@ -18,7 +19,7 @@ class Restaurant(models.Model):
     # R_Password=models.CharField(max_length=200)
     R_City=models.CharField(max_length=200)
     R_Area=models.CharField(max_length=200,default="Qena")
-    R_Image = models.ImageField(upload_to='media/media/media/media', default="null")
+    R_Image = models.ImageField(upload_to='images', default="null")
     R_Rate= models.PositiveIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
     RImage_Cover = models.ImageField(upload_to='media/images', default="null")
     
@@ -70,7 +71,7 @@ class FoodItem(models.Model):
     It_Size = models.CharField(max_length=200)
     It_Prise = models.IntegerField(default= 0, null=True)
     It_Descrip = models.CharField(max_length=200, default='null')
-    F_Images= models.ImageField(upload_to='media/media/media/media', default='null')
+    F_Images= models.ImageField(upload_to='images', default='null')
     F_Rate = models.PositiveIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
     foods = models.ManyToManyField(Restaurant)
 
@@ -98,12 +99,12 @@ class Order(models.Model):
 
 
 class Addtocard(models.Model):
-    name = models.CharField(max_length=200, default='null')
-    kind = models.CharField(max_length=200, default='null')
-    size = models.CharField(max_length=200, default='null')
-    prise = models.IntegerField(default= 0, null=True)
-    descrip = models.CharField(max_length=200, default='null')
-    images= models.ImageField(upload_to='media/media/media/media', default='null')
+    orders_Name = models.CharField(max_length=200, default="null")
+    customer_id = models.ManyToManyField(Customer, default=0)
+    meal        = models.ManyToManyField(FoodItem, default=0)
+    restaurnt_id= models.ManyToManyField(Restaurant, default=0)
+
+
     
     
     

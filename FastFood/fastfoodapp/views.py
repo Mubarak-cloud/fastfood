@@ -26,8 +26,8 @@ def mainpage(request):
     Foods = FoodItem.objects.all()
     
     return render(request,'Mubarak html files/mainPage.html',{
-        'Restobject': Restobject[0:3],'Foods':Foods}
-         )
+        'Restobject': Restobject[0:3],'Foods':Foods
+        })
 
     # Restaurant page functions 
 @login_required(login_url='loginRes')
@@ -38,14 +38,14 @@ def restaurant_meals(request, id):
     recive_orders    = None
     food_item        = None
         #  to show current Restaurant data
-    Restaurant_id = Restaurant.objects.get(id=id)
+    Restaurant_id = Restaurant.objects.get(user_id=id)
     if Restaurant_id :
             #  to show restaurant meals
-        restaurant_meals = FoodItem.objects.filter(foods__id=id)
-        # print(restaurant_meals)
+        restaurant_meals = FoodItem.objects.filter(foods__user_id=id)
+        print(restaurant_meals)
 
             # to show customers orders 
-        customers_orders = Order.objects.all().filter(restaurants__id =id)
+        customers_orders = Order.objects.all().filter(restaurants__user_id =id)
         # print('customer orders variable -----')
         print(customers_orders)
         if customers_orders:
@@ -59,13 +59,14 @@ def restaurant_meals(request, id):
 
             #  to add new meal 
         if request.method == "POST":
+            print(request.FILES.get('Image'))
             meal_name = request.POST.get('name')
             meal_kind = request.POST.get('Kind')
             meal_size = request.POST.get('Size')
             meal_prise= request.POST.get('Price')
             meal_Descr= request.POST.get('Description')
             meal_rate = request.POST.get('Rate')
-            meal_image= request.POST.get('Image')
+            meal_image= request.FILES.get('Image')
 
             food_item = FoodItem(
 
@@ -82,7 +83,7 @@ def restaurant_meals(request, id):
             food_item.foods.add(Restaurant_id)
             # print('food item variable')
             # print(food_item)
-            
+            food_item.save()
         #     return render(request, 'Mubarak html files/ManyToMany/restaurant.html', {})
         # else:
         #     return render(request, 'Mubarak html files/ManyToMany/restaurant.html', {})
@@ -185,43 +186,39 @@ def RestaurantsPage(request, id ):
     })
 
 def addtocart(request, id):
+    current_user = request.user
     foodid  = FoodItem.objects.all().get(id=id)
     cart    = Addtocard.objects.all()
-    newcart = None
-    total_cost = 0
-    item = None
+    c = None
+    # print(foodid.foods.get())
+    # print(current_user)
+    # print(foodid.id)
+    # for c in cart:
+        # print(c.meal.get().F_Images)
 
-    # print(foodid.F_Images)
-    # print(cart)
-    if foodid :
-        newcart = Addtocard(
-            name    = foodid.It_Name ,   
-            kind    = foodid.It_Kind , 
-            size    = foodid.It_Size , 
-            prise   = foodid.It_Prise , 
-            descrip = foodid.It_Descrip , 
-            images  = foodid.F_Images , 
-    
-        )
-        newcart.save()
-        for p in cart:
-            total_cost += p.prise
-            # item = [p] 
-            # number_objc = p.
-        A = Addtocard.objects.all().count()
-        objects = Addtocard.objects.all()
-        print(objects)
-        for c in cart:
-            restOrders = Order(
-                D_Name = c.name,
-                D_totalCost = c.prise,
-                # restaurants.set(id)
-            )
-            restOrders.save()
+    # newcart = None
+    # total_cost = 0
+    # item = None
+    new_orders= Addtocard.objects.create(
+        orders_Name = current_user.username
+        # customer_id = current_user,
+        # meal = foodid.id,
+        # restaurnt_id = foodid.foods.get()
+    )
+    new_orders.save()
+    customer = Customer.objects.get(user_id = current_user.id)
+    new_orders.customer_id.add(customer)
+    new_orders.meal.add(foodid.id)
+    new_orders.restaurnt_id.add(foodid.id)
+    print(new_orders)
+
+
+
     return render(request, 'Mubarak html files/ManyToMany/addtocart.html',{
             'foodid'    : foodid,
             'cart'   : cart,
-            'total_cost' : total_cost,
+            # 'c'         : c.meal.get().F_Images
+            # 'total_cost' : total_cost,
     })
 
 
@@ -239,11 +236,11 @@ def history_of_orders(request, id):
     checkuesr= None
 
         #  get and check the user 
-    checkuesr = Customer.objects.get(user_id= id)
+    checkuesr = Customer.objects.get(user_id=id)
     print(checkuesr.phone)
     if checkuesr:
         # customerinfo = Customer.objects.get(id=id)
-        history= Order.objects.all().filter(customers__id=id)
+        history= Order.objects.all().filter(customers__user_id=id)
         message = 'ther is no orders'
 
         # if request.method == 'POST':
@@ -276,15 +273,17 @@ def history_of_orders(request, id):
     })
 
 
-def addtocard(request,cust_id,meal_id):
-    customerObj = Customer.objects.get(id=cust_id)
-    oederObj = FoodItem.objects.get(id=meal_id)
-    print(oederObj.It_Name,customerObj.C_Fname)
+def addtocard(request,id,id2):
+    customerObj = Customer.objects.get(id=id)
+    oederObj = FoodItem.objects.get(id=id2)
+    print(oederObj.user.username,customerObj.user.username)
 
-    myorder=Addtocard.objects.create(
-        Customer_id=customerObj,
-        Food_it_id=oederObj
-        )
+
+    # myorder=Addtocard.objects.create(
+    #     Customer_id=customerObj,
+    #     Food_it_id=oederObj,
+    #     restaurnt_id
+    #     )
 
     return render(request,'Mubarak html files/mainPage.html',{})
 
@@ -361,14 +360,16 @@ def Outer_SearchBox(request):
 
 def index(request, id):
     # itemId = testModel.objects.all()
-    tesItem= testModel.objects.get(Mid=id)
+    # tesItem= testModel.objects.get(Mid=id)
     # print(tesItem)
     return render(request, 'Mubarak html files/base.html', {
         # 'item': item.It_Name,
         # 'itemId': itemId,
-        'tesItem': tesItem.MName ,
+        # 'tesItem': tesItem.MName ,
           
     })
+
+
 
 
 def OrderPage(request, id):
@@ -376,21 +377,39 @@ def OrderPage(request, id):
     orders = None
 
     current_user = request.user
+    # current_user = Customer.objects.all()
     order = FoodItem.objects.get(id=id)
-    # B = Restaurant.objects.all()
-    print(current_user)
-    # print(order.foods)
+    # rest_id = FoodItem.objects.distinct()
+    
+    # print(order.foods.get())
+    # print(current_user)
+
     if order:
         # print(order)
         if request.method == "POST":
             # print(order)
-            orders = Order(
+            OR = Order(
                 D_Name = order.It_Name,
                 D_totalCost = order.It_Prise,
             )
-            orders.save()
-            # print(orders)
-            orders.customers.add(current_user)
+            OR.save()
+            customer = Customer.objects.get(user_id = current_user)
+            # restaurants  = FoodItem.objects.get(id__set(order.foods))
+            # print(restaurants)
+            OR.customers.add(customer)
+            OR.foods.add(order.id)
+            OR.restaurants.add(order.foods.get())
+            # print(OR.objects.filter(FoodItem.foods))
+            # orders.restaurants.add(restaurants)
+            # for r in rest_id:
+            #     A = FoodItem.objects.filter(foods__id= r.id)
+            #     print(A)
+                # OR_sets.append(r,A)
+
+            print(OR)
+            OR.save()
+
+
             # A = Customer.objects.all()
             # orders.restaurants.add(B[0].id)
 
@@ -489,12 +508,16 @@ def testview(request, id):
 def typepage(request):
     return render(request,'typePage.html',{})
 
+def showRes(request):
+    return render(request,'showRes.html',{})
+
+
 def restaurant_Reg(request):
     if request.method == "POST":
         cd = request.POST
         if get_user_model().objects.filter(email=cd['email']) or get_user_model().objects.filter(username=cd['full_name']):
             messages.warning(request, 'email or name used before')
-            return redirect('register')
+            return redirect('loginRes')
         obj = Restaurant()
         obj.user = get_user_model().objects.create_user(username=cd['full_name'])
         obj.user.email = cd['email']
@@ -512,15 +535,18 @@ def restaurant_Reg(request):
 
 
 
-def restaurant_login(request, id):
-    restaurant_id = Restaurant.objects.get(id=id)
+def restaurant_login(request):
+    # restaurant_id = Restaurant.objects.get(id=id)
     cd = request.POST
-
+    # res_id=Restaurant.objects.get(user_id=id)
     if request.method == "POST":
         user = authenticate(request, username=get_user_model().objects.filter(email=cd['email'])[0].username, password=cd['password'])
         if user:
             login(request, user)
-            return redirect('restaurant/'+str(restaurant_id))
+            # return redirect('restaurant',instance=str(res_id))
+            return redirect('showRes')
+            
+            return redirect('restaurant',instance=str(user.id))
         else:
             messages.warning(request, 'invalid email or password')
             return redirect('loginRes')
