@@ -17,9 +17,9 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static 
-from fastfoodapp.views import typepage,restaurant_Reg,restaurant,addmeal,delete,Aboutus,loginType,editmeal,yourorders,showorders,editinfo,restaurant_login,customer_reg,customer_login,logout_user,addtocard,details,showRes
-from fastfoodapp.views import mainpage,RestaurantsPage,Rmeal,Outer_SearchBox,Rdessert,OrderPage,index,RestaurantsPage,ordertype,checktype,testview
-from fastfoodapp.views import history_of_orders,restaurant_meals,addtocart
+# from fastfoodapp.views import typepage,restaurant_Reg,restaurant,addmeal,delete,Aboutus,loginType,editmeal,yourorders,showorders,editinfo,restaurant_login,customer_reg,customer_login,logout_user,addtocard,details,showRes
+# from fastfoodapp.views import mainpage,RestaurantsPage,Rmeal,Outer_SearchBox,Rdessert,OrderPage,index,RestaurantsPage,ordertype,checktype,testview
+from fastfoodapp.views import *
 
 
 urlpatterns = [
@@ -31,8 +31,11 @@ urlpatterns = [
     path('restaurant/<int:id>', restaurant_meals, name='restaurant'),
     path('CustomerPage/<int:id>',history_of_orders, name='CustomerPage'),
     path('showRes',showRes, name='showRes'),
+    path('RestaurantsPage/showorders',show_Orders,name="showorders"),
 
-    path('RestaurantsPage/RestaurantsPage/addtocart/<int:id>',addtocart,name="addtocart"),
+    path('/addtocart',addtocart,name="addtocart"),
+        #  another link for mainpage 
+    path('RestaurantsPage/mainpageAnother', mainpage_another_one, name="mainpageAnother"),
 
     # path('details',details,name="Details"),
     path('<int:id>/<int:id2>',addtocard,name="Addtocard"),

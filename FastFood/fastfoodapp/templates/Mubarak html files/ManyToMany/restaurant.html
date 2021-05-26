@@ -141,14 +141,14 @@
             </div>
                         {% comment %} show orders div {% endcomment %}
             <div class="collapse multi-collapse"  id="multiCollapseExample2" >
-
+                {% for  r in recive_orders %}
                 <div class="row" style="text-align:center;">
                         <div class="card" style="text-align:center; margin-left:30%; width:50%;">
                             <div class="card-body">
-                                    <p>{{customer_name}}</p>
-                                    <p>{{customer_phone}}</p>
-                                    <p>{{customer_city}}</p>
-                                    <p>{{customer_area}}</p>
+                                    <p>{{r.customers.get.user}}</p>
+                                    <p>{{r.customers.get.phone}}</p>
+                                    <p>{{r.customers.get.City}}</p>
+                                    <p>{{r.customers.get.Area}}</p>
                             </div>
                         </div>
                         <table class="table">
@@ -164,9 +164,9 @@
                 {% for R in recive_orders %}
                                 <tr>
                                 {% comment %} <th scope="row">1</th> {% endcomment %}
-                                <td>{{R.foods.get.It_Name}}</td>
-                                <td>{{R.foods.get.It_Size}}</td>
-                                <td>{{R.foods.get.It_Prise}}</td>
+                                <td>{{r.foods.get.It_Name}}</td>
+                                <td>{{r.foods.get.It_Size}}</td>
+                                <td>{{r.foods.get.It_Prise}}</td>
                                 </tr>
                                 {% comment %} <tr>
                                 <th scope="row">2</th>
@@ -186,11 +186,13 @@
                                 <tr>
                                 <td>Sum</td>
                                 <td> __</td>
+                                {% comment %} <td>{{r.foods.get.It_Size}}</td> {% endcomment %}
                                 <td>{{A}}</td>
                                 </tr>
                             </tfoot>
                         </table>
                 </div>
+                {% endfor %}
             </div>    
         </div>
 

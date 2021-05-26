@@ -62,12 +62,28 @@
                     <li><a href="{% url 'RDFPage' %}">Restaurants</a></li>
                 </ul>
             </div>
-                {% comment %} <ul>
-                    <li><img src=""></li>
-                </ul> {% endcomment %}
+            <div id="cart-div">
+                <ul>
+                    <li style="color: black; list-style-type:none; margin-right:30px;">
+                        <a href="showorders">
+                            <img src="/media/images/menuicon.png" 
+                            style="
+                            width:40px;
+                            height:40px; 
+                            color: white; 
+                                  "
+                            >
+                        </a>
+                        {% if number_of_cart_items == 1%}
+                            0
+                        {% else %}
+                            {{number_of_cart_items}}
+                        {% endif %}
+                     </li>
+                </ul> 
+            </div>
              {% if user.is_authenticated%}
              <ul style="display: flex; margin-top: 20px;">
-                <li>{{number_of_cart_items}}</li>
                 <li><a href="{% url 'logout' %}" style="color:white;text-decoration:none;margin-right: 15px;"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 <li><p style="color:orange"><span><i class="far fa-user"></i></span> Welcome , {{user.username}}</p></li>
              </ul>
@@ -104,11 +120,12 @@
                     <img class="card-img-top" src="{{F.F_Images.url}}" height=200px width=200px alt="Card image">
                     <div class="card-body">
                         <h4 class="card-title">{{F.It_Name}}</h4>
-                        <p class="card-text">{{F.It_Kind}}</p>
+                        <p class="card-text">{{F.It_Descrip}}</p>
+                        <p class="card-text">{{F.It_Size}}</p>
                         <p class="card-text">{{F.It_Prise}}</p>
                           {% comment %} {{F.F_Rate}}<span class="fa fa-star checked"></span> {% endcomment %}
                         </P>
-                        <form action="#" method="POST"> {% csrf_token %}
+                        <form action="" method="POST"> {% csrf_token %}
                             <button class="btn btn-primary">
                                 <input type="hidden" value={{F.id}} name="item_ID">
                                 <input type="hidden" value={{F.It_Name}} name="item_name">

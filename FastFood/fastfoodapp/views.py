@@ -29,6 +29,16 @@ def mainpage(request):
         'Restobject': Restobject[0:3],'Foods':Foods
         })
 
+    #  another view for mainpage to test purpuse
+def mainpage_another_one(request):
+    Restobject = Restaurant.objects.all()
+    Foods = FoodItem.objects.all()
+    
+    return render(request,'Mubarak html files/mainPage.html',{
+        'Restobject': Restobject[0:3],'Foods':Foods
+        })
+
+
     # Restaurant page functions 
 @login_required(login_url='loginRes')
 def restaurant_meals(request, id):
@@ -38,7 +48,7 @@ def restaurant_meals(request, id):
     recive_orders    = None
     food_item        = None
         #  to show current Restaurant data
-    Restaurant_id = Restaurant.objects.get(user_id=id)
+    Restaurant_id = Restaurant.objects.get(user_id= id)
     if Restaurant_id :
             #  to show restaurant meals
         restaurant_meals = FoodItem.objects.filter(foods__user_id=id)
@@ -87,7 +97,8 @@ def restaurant_meals(request, id):
         sum_orders_price = Order.objects.all()
         a = 0
         for item in sum_orders_price:
-            a += item.foods.get().It_Prise
+            if item.customers.get() == item.customers.get():
+                a += item.foods.get().It_Prise
         # print(a)
 
             #  to show customer data in orders menu 
@@ -184,7 +195,7 @@ def RestaurantsPage(request, id ):
 
         # show cart number of items
     number_of_cart_items = recive_orders.count()
-    # print(number_of_cart_items)
+    print(number_of_cart_items)
 
 
 
@@ -238,9 +249,33 @@ def RestaurantsPage(request, id ):
 
     })
 
-def addtocart(request, id):
+
+
+
+def show_Orders(request):
     current_user = request.user
-    foodid  = FoodItem.objects.all().get(id=id)
+    all_orders   = Order.objects.all()
+    orders_total_price = 0
+    
+    
+    for a in all_orders:
+        orders_total_price += a.foods.get().It_Prise
+    # print(orders_total_price)
+
+    return render(request, 'Mubarak html files/ManyToMany/addtocart.html',{
+        'all_orders' : all_orders,
+        'orders_total_price': orders_total_price
+    })
+
+
+
+
+
+
+
+def addtocart(request):
+    current_user = request.user
+    # foodid  = FoodItem.objects.all().get(id=id)
     cart    = Order.objects.all()
     # c = None
     # print(foodid.foods.get())
@@ -269,7 +304,6 @@ def addtocart(request, id):
 
 
     return render(request, 'Mubarak html files/ManyToMany/addtocart.html',{
-            'foodid'    : foodid,
             'cart'   : cart,
             # 'c'         : c.meal.get().F_Images
             # 'total_cost' : total_cost,

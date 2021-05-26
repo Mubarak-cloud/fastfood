@@ -73,34 +73,55 @@
 </nav>
 
   
-      <div class="container" style="background-color:rgb(255, 255, 245);">
+    <div class="container" style="background-color:rgb(255, 255, 245);">
         <div class="row" style="margin-top: 2%; background-color: indigo; text-align: center; padding: 1%;" >
           <div  class=" col-sm-12">
               <h1 style="color:gold; padding: 1%;text-align: center;">MY ORDERS</h1>
           </div>
-      </div>
+        </div>
 
 
-        <div  class="container" id="Food-cards" style="margin-top:10px; text-align: center;">
+      <div  class="container" id="Food-cards" style="margin-top:10px; text-align: center;">
         <div class="row" style="margin-left: 0.5%;">
-            {% for F in cart %}
+            {% for F in all_orders %}
                 <div class="card" style="width:300px; margin-left: 2%; margin-top: 2%;">
-                    <img class="card-img-top" src="{{F.cart.url}}" height=200px width=200px alt="Card image">
+                    <img class="card-img-top" src="{{F.foods.get.F_Images.url}}" height=200px width=200px alt="Card image">
                     <div class="card-body">
                         <h4 class="card-title"></h4>
-                        <p class="card-text" style="text-align: center;">{{F.prise}}</p>
+                        <p class="card-text" style="text-align: center;">{{F.foods.get.It_Name}}</p>
+                        <p class="card-text" style="text-align: center;">{{F.foods.get.It_Kind}}</p>
+                        <p class="card-text" style="text-align: center;">{{F.foods.get.It_Size}}</p>
+                        <p class="card-text" style="text-align: center;">{{F.foods.get.It_Prise}}EGP</p>
                         {% comment %} <p class="card-text">
                           {{F.F_Rate}}<span class="fa fa-star checked"></span>
                         </P> {% endcomment %}
                         {% comment %} <a href="OrderPage/{{F.id}}"  class="btn btn-primary">See Description</a> {% endcomment %}
                         {% comment %} <a href="/OrderPage/{{F.id}}" class="btn btn-primary">Order</a> {% endcomment %}
-                    </div>
+                      </div>
                 </div>
             {% endfor %}
         </div> 
-    </div>
+      </div>
+
         
-        
+      <table class="table">
+          <thead>
+            <tr style="text-align: center;">
+              <th scope="col">Total price is :
+                <span style="margin-left: 30px;">{{orders_total_price}}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody >
+              <tr>
+                <th scope="row" >
+                  <button class="btn btn-primary" style="margin:0; margin-left: 43%;">
+                    <a href="mainpageAnother">submit order</a>
+                  </button> 
+                </th>
+              </tr>
+          </tbody>
+      </table>  
         
        
     </div>
