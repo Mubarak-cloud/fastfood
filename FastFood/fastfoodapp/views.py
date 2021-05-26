@@ -42,16 +42,14 @@ def restaurant_meals(request, id):
     if Restaurant_id :
             #  to show restaurant meals
         restaurant_meals = FoodItem.objects.filter(foods__user_id=id)
-        print(restaurant_meals)
+        # print(customers_orders)
 
             # to show customers orders 
         customers_orders = Order.objects.all().filter(restaurants__user_id =id)
-        # print('customer orders variable -----')
-        print(customers_orders)
+        # print(customers_orders[0].customers.get())
         if customers_orders:
             recive_orders = customers_orders
-            # print('recive orders variabel ----')
-            # print(recive_orders)
+            # print(recive_orders.all()[0].customers.get())
         else:
             recive_orders = 'thers is no orders for today'
             # print(recive_orders)
@@ -84,9 +82,29 @@ def restaurant_meals(request, id):
             # print('food item variable')
             # print(food_item)
             food_item.save()
-        #     return render(request, 'Mubarak html files/ManyToMany/restaurant.html', {})
-        # else:
-        #     return render(request, 'Mubarak html files/ManyToMany/restaurant.html', {})
+
+            #  to sum order price 
+        sum_orders_price = Order.objects.all()
+        a = 0
+        for item in sum_orders_price:
+            a += item.foods.get().It_Prise
+        # print(a)
+
+            #  to show customer data in orders menu 
+        c = None
+        customer_name = None
+        customer_phone = None
+        customer_city = None
+        customer_area = None
+
+        for c in recive_orders:
+            customer_name = c.customers.get()
+            customer_phone= c.customers.get().phone
+            customer_city = c.customers.get().City
+            customer_area = c.customers.get().Area
+        # print(customer_phone)
+            
+
     return render(request, 'Mubarak html files/ManyToMany/restaurant.html', {
         #  to show current Restaurant data
         'R_id'      : Restaurant_id.id,
@@ -106,7 +124,14 @@ def restaurant_meals(request, id):
         #  to show today orders 
         'recive_orders'     : recive_orders,
 
-        # to add new meal 
+        # to show total price 
+        'A'  : a,
+
+        #  to show customer data in menu orders 
+        'customer_name' :   customer_name,
+        'customer_phone':   customer_phone,
+        'customer_city' :   customer_city,
+        'customer_area' :   customer_area
 
     })
     
@@ -115,6 +140,8 @@ def restaurant_meals(request, id):
             
 #   function for restauratns --- this function do the exact thing like above and i did that to handle old version pages " Restaurant page "
 def RestaurantsPage(request, id ):
+        #  current customer
+    current_user = request.user
         #  globale variables for if condtions
     restaurant_meals = None
     customers_orders = None
@@ -124,43 +151,66 @@ def RestaurantsPage(request, id ):
         #  to show current Restaurant data
     Restaurant_id = Restaurant.objects.get(id=id)
         #  to show restaurant meals
-    restaurant_meals = FoodItem.objects.filter(foods__id=id)
-    # print(restaurant_meals)
+    restaurant_meals = FoodItem.objects.filter(foods__id=id).all()
+    # print(restaurant_meals[0].foods.get())
 
             # to show customers orders 
     customers_orders = Order.objects.all().filter(restaurants__id =id)
-    print(customers_orders)
+    # print(customers_orders.all().customers)
     if customers_orders:
         recive_orders = customers_orders
-        print(recive_orders)
+        # print(recive_orders)
     else:
         recive_orders = 'thers is no orders for today'
         # print(recive_orders)
 
+    if request.method== "POST":
+        meal_id = request.POST.get("item_ID")
+        meal_nam= request.POST.get("item_name")
+        meal_prise = request.POST.get("item_prise")
+        meal_restaurant= request.POST.get("item_foods")
+
+        new_order = Order(
+            D_Name = meal_nam,
+            D_totalCost = meal_prise
+        )
+        new_order.save()
+        customer = Customer.objects.get(user_id = current_user)
+        new_order.customers.add(customer)
+        new_order.foods.add(meal_id)
+        new_order.restaurants.add(meal_restaurant)
+        # print(meal_restaurant)
+
+
+        # show cart number of items
+    number_of_cart_items = recive_orders.count()
+    # print(number_of_cart_items)
+
+
 
         #  to add new meal 
-    if request.method == "POST":
-        meal_name = request.POST.get('name')
-        meal_kind = request.POST.get('Kind')
-        meal_size = request.POST.get('Size')
-        meal_prise= request.POST.get('Prise')
-        meal_Descr= request.POST.get('Description')
-        meal_rate = request.POST.get('Rate')
-        meal_image= request.POST.get('Image')
+    # if request.method == "POST":
+    #     meal_name = request.POST.get('name')
+    #     meal_kind = request.POST.get('Kind')
+    #     meal_size = request.POST.get('Size')
+    #     meal_prise= request.POST.get('Prise')
+    #     meal_Descr= request.POST.get('Description')
+    #     meal_rate = request.POST.get('Rate')
+    #     meal_image= request.POST.get('Image')
 
-        food_item = FoodItem(
+    #     food_item = FoodItem(
 
-            It_Name   = meal_name,
-            It_Kind   = meal_kind,
-            It_Size   = meal_size,
-            It_Prise  = meal_prise,
-            It_Descrip= meal_Descr,
-            F_Rate    = meal_rate,
-            F_Images  = meal_image
+    #         It_Name   = meal_name,
+    #         It_Kind   = meal_kind,
+    #         It_Size   = meal_size,
+    #         It_Prise  = meal_prise,
+    #         It_Descrip= meal_Descr,
+    #         F_Rate    = meal_rate,
+    #         F_Images  = meal_image
 
-        )
-        food_item.save()
-        food_item.foods.add(Restaurant_id)
+    #     )
+    #     food_item.save()
+    #     food_item.foods.add(Restaurant_id)
         
 
 
@@ -181,36 +231,40 @@ def RestaurantsPage(request, id ):
         'restaurant_meals' : restaurant_meals,
 
                 #  to show today orders 
-        'recive_orders'     : recive_orders
+        'recive_orders'     : recive_orders,
+
+                # to show cart items number
+        'number_of_cart_items':number_of_cart_items,
 
     })
 
 def addtocart(request, id):
     current_user = request.user
     foodid  = FoodItem.objects.all().get(id=id)
-    cart    = Addtocard.objects.all()
-    c = None
+    cart    = Order.objects.all()
+    # c = None
     # print(foodid.foods.get())
     # print(current_user)
     # print(foodid.id)
     # for c in cart:
-        # print(c.meal.get().F_Images)
+    #     a = c.meal.all()
+    #     print(a)
 
     # newcart = None
     # total_cost = 0
     # item = None
-    new_orders= Addtocard.objects.create(
-        orders_Name = current_user.username
+    # new_orders= Addtocard.objects.create(
+    #     orders_Name = current_user.username
         # customer_id = current_user,
         # meal = foodid.id,
         # restaurnt_id = foodid.foods.get()
-    )
-    new_orders.save()
-    customer = Customer.objects.get(user_id = current_user.id)
-    new_orders.customer_id.add(customer)
-    new_orders.meal.add(foodid.id)
-    new_orders.restaurnt_id.add(foodid.id)
-    print(new_orders)
+    # )
+    # new_orders.save()
+    # customer = Customer.objects.get(user_id = current_user.id)
+    # new_orders.customer_id.add(customer)
+    # new_orders.meal.add(foodid.id)
+    # new_orders.restaurnt_id.add(foodid.id)
+    # print(new_orders)
 
 
 

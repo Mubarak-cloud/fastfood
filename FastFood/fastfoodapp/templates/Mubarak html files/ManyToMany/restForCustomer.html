@@ -62,10 +62,14 @@
                     <li><a href="{% url 'RDFPage' %}">Restaurants</a></li>
                 </ul>
             </div>
+                {% comment %} <ul>
+                    <li><img src=""></li>
+                </ul> {% endcomment %}
              {% if user.is_authenticated%}
              <ul style="display: flex; margin-top: 20px;">
-              <li><a href="{% url 'logout' %}" style="color:white;text-decoration:none;margin-right: 15px;"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
-              <li><p style="color:orange"><span><i class="far fa-user"></i></span> Welcome , {{user.username}}</p></li>
+                <li>{{number_of_cart_items}}</li>
+                <li><a href="{% url 'logout' %}" style="color:white;text-decoration:none;margin-right: 15px;"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li><p style="color:orange"><span><i class="far fa-user"></i></span> Welcome , {{user.username}}</p></li>
              </ul>
             
             {% else %}
@@ -101,10 +105,19 @@
                     <div class="card-body">
                         <h4 class="card-title">{{F.It_Name}}</h4>
                         <p class="card-text">{{F.It_Kind}}</p>
-                        <p class="card-text">
+                        <p class="card-text">{{F.It_Prise}}</p>
                           {% comment %} {{F.F_Rate}}<span class="fa fa-star checked"></span> {% endcomment %}
                         </P>
-                        <a href="RestaurantsPage/addtocart/{{F.id}}"  class="btn btn-primary">Add To Cart</a>
+                        <form action="#" method="POST"> {% csrf_token %}
+                            <button class="btn btn-primary">
+                                <input type="hidden" value={{F.id}} name="item_ID">
+                                <input type="hidden" value={{F.It_Name}} name="item_name">
+                                <input type="hidden" value={{F.It_Prise}} name="item_prise">
+                                <input type="hidden" value={{F.foods.get.id}} name="item_foods">
+                                <input type="submit" value="add to cart" style=" background: transparent; border: transparent;">
+                            </button>
+                            {% comment %} <a href="RestaurantsPage/addtocart/{{F.id}}"  class="btn btn-primary">Add To Cart</a> {% endcomment %}
+                        </form>
                         {% comment %} <a href="/OrderPage/{{F.id}}" class="btn btn-primary">Order</a> {% endcomment %}
                     </div>
                 </div>
